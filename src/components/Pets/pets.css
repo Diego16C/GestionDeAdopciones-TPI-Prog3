@@ -1,0 +1,35 @@
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.pet-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.2s;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+}
+
+.pet-card h3 {
+  margin: 0 0 0.5rem;
+  color: #6a884f;
+}
+
+.disponible {
+  color: green;
+  font-weight: bold;
+}
+
+.adoptado {
+  color: red;
+  font-weight: bold;
+}

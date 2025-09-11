@@ -1,0 +1,37 @@
+:root {
+  --primary-color: #6a884f;      /* Color principal - verde */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.main-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 4px 6px var(--shadow-color);
+
+  position: fixed;   /* se fija arriba */
+  top: 0;            /* pegado al borde superior */
+  left: 0;           /* pegado al borde izquierdo */
+  width: 100%;       /* ocupa todo el ancho de la pantalla */
+  z-index: 1000;  /* se asegura que esté por encima de otros elementos */
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.nav-list li a:hover {
+  color: #d4e9c3;
+}
