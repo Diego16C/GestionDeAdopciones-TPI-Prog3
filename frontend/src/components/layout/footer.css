@@ -1,0 +1,130 @@
+.footer {
+    background-color:#6a884f;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-top: 2px solid #ff7043 ;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin: 20px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.contact-info {
+    text-align: left;
+}
+
+.contact-info p {
+    margin: 5px 0;
+    color: #d4d3d3;
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+}
+
+.contact-info p i {
+    margin-right: 10px;
+    color: #eceae7;
+}
+
+
+.quick-access {
+    text-align: left;
+}
+
+
+.quick-access h3,
+.hours-of-operation h3 {
+    color: #d6d2d2;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+.quick-access ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-access ul li {
+    margin-bottom: 10px;
+}
+
+.quick-access ul li a {
+    text-decoration: none;
+    color: #d4d3d3;
+    font-size: 1em;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 3px;
+    overflow: hidden;
+}
+
+.quick-access ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #d4d3d3;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.quick-access ul li a:hover {
+    color: #683904;
+}
+
+.quick-access ul li a:hover::after {
+    width: 100%;
+}
+
+.hours-of-operation {
+    text-align: left;
+}
+.hours-of-operation h3 {
+    font-weight: bold;
+}
+
+.hours-of-operation table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hours-of-operation table td {
+    padding: 8px 0;
+    color: #d4d3d3;
+    font-size: 1em;
+    border-bottom: 2px solid #737373;
+    vertical-align: top;
+}
+
+.hours-of-operation table td:first-child {
+    font-weight: bold;
+    border-bottom: 2px solid #737373;
+    width: 50%;
+}
+
+.red-text {
+    color: #933835 !important;
+    font-weight: bold;
+}
+
+.footer-bottom {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #464646;
+    color: #c5b9b9;
+    font-size: 0.85em;
+}
+
