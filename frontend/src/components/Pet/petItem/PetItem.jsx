@@ -2,77 +2,86 @@ import { Badge, Card, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import MyModal from '../../ui/modal/MyModal';
+import { deletePetDef } from '../../../services/petServices';
+
+const stateColors = {
+  Adoptado: 'secondary',
+  'En adopcion': 'success',
+  Pendiente: 'primary',
+  'En Pausa': 'warning',
+};
 
 const PetItem = ({
   id,
   name,
   species,
-  age,
   breed,
+  age,
+  sex,
   imageUrl,
-  available,
+  state,
+  shelterId,
   onPetDeleted,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const navigate = useNavigate();
 
-  const clickHandler = () => {
-    navigate(`/pets/${id}`);
-  };
+  const clickHandler = () => navigate(`/pets/${id}`);
 
   const handleConfirmDelete = async () => {
     setShowModal(false);
+    setLoadingDelete(true);
     try {
-      const response = await fetch(
-        `http://localhost:3000/pet/deleteDef/${id}`,
-        {
-          method: 'DELETE',
-        }
-      );
-      if (response.ok) {
-        if (onPetDeleted) onPetDeleted(id);
-      } else {
-        alert('Error al eliminar la mascota');
-      }
-    } catch {
-      alert('Error al conectar con el servidor');
+      await deletePetDef(id);
+      if (onPetDeleted) onPetDeleted(id);
+    } catch (err) {
+      alert(err.message || 'Error al eliminar la mascota');
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
   return (
     <>
-      <Card style={{ width: '22rem' }} className="mx-3">
+      <Card style={{ width: '15rem' }} className="mx-3 mb-3">
         <Card.Img
-          height={400}
+          height={300}
           variant="top"
-          src={imageUrl !== '' ? imageUrl : 'https://bit.ly/47NylZk'}
+          src={imageUrl || 'https://bit.ly/47NylZk'}
         />
         <Card.Body>
           <div className="mb-2">
-            {available ? (
-              <Badge bg="success">Disponible</Badge>
-            ) : (
-              <Badge bg="secondary">Adoptado</Badge>
-            )}
+            <Badge bg={stateColors[state] || 'primary'}>
+              {state || 'Desconocido'}
+            </Badge>
           </div>
           <Card.Title>{name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{species}</Card.Subtitle>
           <Card.Text>
-            <strong>Raza:</strong> {breed}
+            <strong>Raza:</strong> {breed || 'Desconocida'} <br />
+            <strong> Sexo: </strong> {sex || 'Desconocida'}
+            <br />
+            <strong>Edad:</strong> {age ?? 'Desconocida'}{' '}
+            {age === 1 ? 'año' : 'años'}
+            <br />
+            <strong> Refugio: </strong> {shelterId || 'Desconocida'}
           </Card.Text>
-          <Card.Text>
-            <strong>Edad:</strong> {age} {age === 1 ? 'año' : 'años'}
-          </Card.Text>
-          <Button onClick={clickHandler}>Seleccionar mascota</Button>
-          <Button
-            style={{ marginLeft: '10px' }}
-            variant="danger"
-            onClick={() => setShowModal(true)}
-          >
-            Eliminar mascota
-          </Button>
+          <div className="d-flex gap-2 flex-wrap">
+            <Button variant="primary" onClick={clickHandler}>
+              Ver Más
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => setShowModal(true)}
+              disabled={loadingDelete}
+            >
+              {loadingDelete ? 'Eliminando...' : 'Eliminar mascota'}
+            </Button>
+          </div>
         </Card.Body>
       </Card>
+
       <MyModal
         show={showModal}
         onClose={() => setShowModal(false)}

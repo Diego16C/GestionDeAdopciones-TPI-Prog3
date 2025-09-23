@@ -99,7 +99,6 @@
     transition: all 0.3s ease;
 }
 
-/* Botón negro */
 .btn-login {
     background-color: black;
     color: white;
@@ -109,7 +108,7 @@
     background-color: #515151;
 }
 
-/* Botón blanco */
+
 .btn-register {
     background-color: #fb6f44;
     color: #f2f2f2;

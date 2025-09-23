@@ -2,8 +2,12 @@ import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import './newPet.css';
 
 const NewPet = ({ onPetAdded }) => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
   const [age, setAge] = useState('');
@@ -61,8 +65,13 @@ const NewPet = ({ onPetAdded }) => {
       });
   };
 
+  const clickHandler = () => {
+    navigate(-1);
+  };
+
   return (
     <div>
+      <h2>Agregar Mascota</h2>
       <Card
         className="m-4 d-flex justify-content-center flex-wrap"
         bg="success"
@@ -146,10 +155,7 @@ const NewPet = ({ onPetAdded }) => {
             </Row>
 
             <Row className="justify-content-end">
-              <Col
-                md={3}
-                className="d-flex flex-column justify-content-end align-items-end"
-              >
+              <Col className="d-flex flex-column justify-content-end align-items-end">
                 <Form.Check
                   type="switch"
                   id="available"
@@ -160,6 +166,9 @@ const NewPet = ({ onPetAdded }) => {
                 />
                 <Button variant="primary" type="submit">
                   Agregar Mascota
+                </Button>
+                <Button variant="danger" onClick={clickHandler}>
+                  Volver
                 </Button>
               </Col>
             </Row>

@@ -1,43 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PetSearch from '../petSearch/PetSearch';
 import PetItem from '../petItem/PetItem';
 
 const Pets = ({ petList }) => {
   const [search, setSearch] = useState('');
 
-  const handleSearch = (value) => {
-    setSearch(value);
-  };
+  const handleSearch = (value) => setSearch(value);
 
-  const filteredPets = petList.filter((pet) => {
-    if (!search) return true;
-    return (
-      pet.name.toLowerCase().includes(search.toLowerCase()) ||
-      pet.species.toLowerCase().includes(search.toLowerCase()) ||
-      pet.breed.toLowerCase().includes(search.toLowerCase())
+  const filteredPets = useMemo(() => {
+    if (!petList?.length) return [];
+    if (!search) return petList;
+
+    return petList.filter((pet) =>
+      [pet.name, pet.species, pet.breed].some((field) =>
+        field?.toLowerCase().includes(search.toLowerCase())
+      )
     );
-  });
+  }, [petList, search]);
 
   return (
-    <div className="d-flex justify-content-center flex-wrap my-5">
-      <div className="container w-50 d-flex justify-content-center flex-wrap">
+    <div className="d-flex flex-column align-items-center my-5">
+      <div className="w-50 mb-4">
         <PetSearch onSearch={handleSearch} search={search} />
       </div>
 
-      <div className="container d-flex justify-content-center flex-wrap">
-        {filteredPets.length ? (
+      <div className="d-flex flex-wrap justify-content-center gap-3">
+        {!petList?.length ? (
+          <p>Cargando mascotas...</p>
+        ) : filteredPets.length ? (
           filteredPets.map((pet) => (
             <PetItem
               key={pet.id}
-              id={pet.id}
-              name={pet.name}
-              species={pet.species}
-              age={pet.age}
-              breed={pet.breed}
-              description={pet.description}
-              imageUrl={pet.imageUrl}
-              available={pet.available}
-              state={pet.state}
+              {...pet} // pasa todas las props directamente
             />
           ))
         ) : (
