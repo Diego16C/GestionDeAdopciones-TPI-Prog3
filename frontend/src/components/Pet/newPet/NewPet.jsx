@@ -3,81 +3,104 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { createPet, updatePet } from '../../../services/petServices';
 import './newPet.css';
 
-const NewPet = ({ onPetAdded }) => {
+const speciesOptions = {
+  Dog: 'dog',
+  Cat: 'cat',
+  Bird: 'bird',
+  Fish: 'fish',
+  Hamster: 'hamster',
+  Rabbit: 'rabbit',
+  Tortoise: 'tortoise',
+  Rodent: 'rodent',
+  Reptile: 'reptile',
+  Horse: 'horse',
+  Other: 'other',
+};
+
+const sexOptions = {
+  Male: 'macho',
+  Female: 'hembra',
+};
+
+const stateOptions = ['Adoptado', 'En adopcion', 'Pendiente', 'En Pausa'];
+
+const NewPet = ({ onPetAdded, petToEdit }) => {
   const navigate = useNavigate();
+  const isEdit = Boolean(petToEdit);
 
-  const [name, setName] = useState('');
-  const [species, setSpecies] = useState('');
-  const [age, setAge] = useState('');
-  const [breed, setBreed] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [available, setAvailable] = useState(true);
+  // Estados iniciales
+  const [name, setName] = useState(petToEdit?.name || '');
+  const [species, setSpecies] = useState(petToEdit?.species || '');
+  const [age, setAge] = useState(petToEdit?.age || '');
+  const [breed, setBreed] = useState(petToEdit?.breed || '');
+  const [sex, setSex] = useState(petToEdit?.sex || '');
+  const [description, setDescription] = useState(petToEdit?.description || '');
+  const [imageUrl, setImageUrl] = useState(petToEdit?.imageUrl || '');
+  const [available, setAvailable] = useState(petToEdit?.available ?? true);
+  const [state, setState] = useState(petToEdit?.state || 'En adopcion');
 
-  // Handlers de cambios
-  const handleNameChange = (event) => setName(event.target.value);
-  const handleSpeciesChange = (event) => setSpecies(event.target.value);
-  const handleAgeChange = (event) => setAge(event.target.value);
-  const handleBreedChange = (event) => setBreed(event.target.value);
-  const handleDescriptionChange = (event) => setDescription(event.target.value);
-  const handleImageUrlChange = (event) => setImageUrl(event.target.value);
-  const handleAvailabilityChange = (event) =>
-    setAvailable(event.target.checked);
-
-  // Submit
-  const handleAddPet = (event) => {
-    event.preventDefault(); // evita que se recargue la página
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     const petData = {
       name,
       species,
-      age: parseInt(age, 10),
+      age,
       breed,
+      sex,
       description,
       imageUrl,
       available,
+      ...(isEdit && { state }),
     };
 
-    fetch('http://localhost:3000/pet', {
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify(petData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Mascota agregada:', data);
+    try {
+      if (isEdit) {
+        await updatePet(petToEdit.id, petData);
+        toast.info('Mascota actualizada con éxito!');
+      } else {
+        await createPet(petData);
         toast.success('Mascota agregada con éxito!');
-        // limpiar inputs
         setName('');
         setSpecies('');
         setAge('');
+        setSex('');
         setBreed('');
         setDescription('');
         setImageUrl('');
         setAvailable(true);
-        if (onPetAdded) onPetAdded();
-      })
-      .catch((error) => {
-        console.error('Error agregando mascota:', error);
-        toast.error('Error agregando mascota');
-      });
+      }
+
+      if (onPetAdded) onPetAdded();
+
+      // Esperar un poco para que se vea el toast antes de navegar
+      setTimeout(() => {
+        navigate('/pets');
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        isEdit ? 'Error actualizando mascota' : 'Error agregando mascota'
+      );
+    }
   };
 
   const clickHandler = () => {
-    navigate(-1);
+    navigate('/pets');
   };
 
   return (
     <div>
-      <h2>Agregar Mascota</h2>
+      <h2>{isEdit ? 'Editar Mascota' : 'Agregar Mascota'}</h2>
       <Card
         className="m-4 d-flex justify-content-center flex-wrap"
         bg="success"
       >
         <Card.Body>
-          <Form className="text-white" onSubmit={handleAddPet}>
+          <Form className="text-white" onSubmit={handleSubmit}>
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3" controlId="name">
@@ -86,19 +109,24 @@ const NewPet = ({ onPetAdded }) => {
                     type="text"
                     placeholder="Ingresar nombre"
                     value={name}
-                    onChange={handleNameChange}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </Form.Group>
               </Col>
               <Col md={6}>
                 <Form.Group className="mb-3" controlId="species">
                   <Form.Label>Especie</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Ej: Perro, Gato..."
+                  <Form.Select
                     value={species}
-                    onChange={handleSpeciesChange}
-                  />
+                    onChange={(e) => setSpecies(e.target.value)}
+                  >
+                    <option value="">Seleccionar especie</option>
+                    {Object.entries(speciesOptions).map(([label, value]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
@@ -112,7 +140,7 @@ const NewPet = ({ onPetAdded }) => {
                     placeholder="Ingresar edad en años"
                     min={0}
                     value={age}
-                    onChange={handleAgeChange}
+                    onChange={(e) => setAge(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -124,20 +152,37 @@ const NewPet = ({ onPetAdded }) => {
                     type="text"
                     placeholder="Ej: Labrador, Siames..."
                     value={breed}
-                    onChange={handleBreedChange}
+                    onChange={(e) => setBreed(e.target.value)}
                   />
+                </Form.Group>
+              </Col>
+
+              <Col md={2}>
+                <Form.Group className="mb-3" controlId="sex">
+                  <Form.Label>Sexo</Form.Label>
+                  <Form.Select
+                    value={sex}
+                    onChange={(e) => setSex(e.target.value)}
+                  >
+                    <option value="">Seleccionar sexo</option>
+                    {Object.entries(sexOptions).map(([label, value]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
 
             <Row className="justify-content-between">
               <Form.Group className="mb-3" controlId="description">
-                <Form.Label>Descripcion</Form.Label>
+                <Form.Label>Descripción</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ingresar una descripción"
                   value={description}
-                  onChange={handleDescriptionChange}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Group>
             </Row>
@@ -149,23 +194,36 @@ const NewPet = ({ onPetAdded }) => {
                   type="text"
                   placeholder="Ingresar url de imagen"
                   value={imageUrl}
-                  onChange={handleImageUrlChange}
+                  onChange={(e) => setImageUrl(e.target.value)}
                 />
               </Form.Group>
             </Row>
 
-            <Row className="justify-content-end">
-              <Col className="d-flex flex-column justify-content-end align-items-end">
-                <Form.Check
-                  type="switch"
-                  id="available"
-                  className="mb-3"
-                  label="¿Disponible para adopción?"
-                  checked={available}
-                  onChange={handleAvailabilityChange}
-                />
-                <Button variant="primary" type="submit">
-                  Agregar Mascota
+            {isEdit && (
+              <Row className="justify-content-end">
+                <Col className="d-flex flex-column justify-content-center">
+                  <Form.Label>Estado de adopción:</Form.Label>
+                  {stateOptions.map((option) => (
+                    <Form.Check
+                      type="radio"
+                      id={`state-${option}`}
+                      key={option}
+                      name="state"
+                      label={option}
+                      value={option}
+                      checked={state === option}
+                      onChange={(e) => setState(e.target.value)}
+                      className="mb-2"
+                    />
+                  ))}
+                </Col>
+              </Row>
+            )}
+
+            <Row className="justify-content-end mt-2">
+              <Col className="d-flex flex-column justify-content-center align-items-center">
+                <Button variant="primary" type="submit" className="mb-2">
+                  {isEdit ? 'Guardar Cambios' : 'Agregar Mascota'}
                 </Button>
                 <Button variant="danger" onClick={clickHandler}>
                   Volver

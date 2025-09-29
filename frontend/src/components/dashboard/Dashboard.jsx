@@ -4,20 +4,33 @@ import Pets from '../Pet/Pets/Pets';
 import PetDetails from '../Pet/petDetails/PetDetails';
 import { Row, Button, Col } from 'react-bootstrap';
 import { Routes, Route } from 'react-router';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { getAvailablePets } from '../../services/petServices';
+
+const EditPet = ({ petList, onPetUpdated }) => {
+  const { id } = useParams();
+
+  const petToEdit = petList.find((p) => String(p.id) === id);
+
+  if (!petToEdit) {
+    return <div>Mascota no encontrada</div>;
+  }
+
+  return <NewPet petToEdit={petToEdit} onPetAdded={onPetUpdated} />;
+};
 
 const Dashboard = () => {
   const [petList, setPetList] = useState([]);
   const navigate = useNavigate();
 
-  // Función para GET de mascotas
-  const fetchPets = () => {
-    fetch('http://localhost:3000/pets')
-      .then((response) => response.json())
-      .then((data) => setPetList([...data]))
-      .catch((error) => console.error('Error fetching pets:', error));
+  const fetchPets = async () => {
+    try {
+      const data = await getAvailablePets();
+      setPetList([...data]);
+    } catch (error) {
+      console.error('Error fetching pets:', error);
+    }
   };
-
   useEffect(() => {
     fetchPets();
   }, []);
@@ -38,13 +51,18 @@ const Dashboard = () => {
           >
             Agregar Mascota
           </Button>
+          <h2>Listado de Mascotas</h2>
         </Col>
       </Row>
-      <h1>Adopcion de animales</h1>
+
       <Routes>
         <Route index element={<Pets petList={petList} />} />
         <Route path=":id" element={<PetDetails petList={petList} />} />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
+        <Route
+          path="edit/:id"
+          element={<EditPet petList={petList} onPetUpdated={fetchPets} />}
+        />
       </Routes>
     </div>
   );

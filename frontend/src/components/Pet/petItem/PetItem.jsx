@@ -2,7 +2,8 @@ import { Badge, Card, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import MyModal from '../../ui/modal/MyModal';
-import { deletePetDef } from '../../../services/petServices';
+import { deletePet } from '../../../services/petServices';
+import { toast } from 'react-toastify';
 
 const stateColors = {
   Adoptado: 'secondary',
@@ -24,21 +25,18 @@ const PetItem = ({
   onPetDeleted,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false);
   const navigate = useNavigate();
 
   const clickHandler = () => navigate(`/pets/${id}`);
 
   const handleConfirmDelete = async () => {
     setShowModal(false);
-    setLoadingDelete(true);
     try {
-      await deletePetDef(id);
+      await deletePet(id);
+      toast.success('Mascota eliminada con éxito!', { autoClose: 3000 });
       if (onPetDeleted) onPetDeleted(id);
     } catch (err) {
       alert(err.message || 'Error al eliminar la mascota');
-    } finally {
-      setLoadingDelete(false);
     }
   };
 
@@ -71,12 +69,8 @@ const PetItem = ({
             <Button variant="primary" onClick={clickHandler}>
               Ver Más
             </Button>
-            <Button
-              variant="danger"
-              onClick={() => setShowModal(true)}
-              disabled={loadingDelete}
-            >
-              {loadingDelete ? 'Eliminando...' : 'Eliminar mascota'}
+            <Button variant="danger" onClick={() => setShowModal(true)}>
+              Eliminar Mascota
             </Button>
           </div>
         </Card.Body>
