@@ -27,7 +27,7 @@ const PetDetails = ({ petList }) => {
     description,
     imageUrl,
     state,
-    shelterId,
+    Shelter,
   } = pet;
 
   const clickHandler = () => {
@@ -51,7 +51,8 @@ const PetDetails = ({ petList }) => {
             <strong>Raza:</strong> {breed} <br />
             <strong>Sexo:</strong> {sex} <br />
             <strong>Descripción:</strong> {description} <br />
-            <strong>En Refugio:</strong> {shelterId}
+            <strong>En Refugio:</strong>{' '}
+            {Shelter ? Shelter.name : 'Sin refugio'}
           </Card.Text>
           <Button className="me-2" onClick={clickHandler}>
             Volver

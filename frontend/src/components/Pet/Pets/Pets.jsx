@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import PetSearch from '../petSearch/PetSearch';
 import PetItem from '../petItem/PetItem';
 
-const Pets = ({ petList }) => {
+const Pets = ({ petList, onPetDeleted }) => {
   const [search, setSearch] = useState('');
 
   const handleSearch = (value) => setSearch(value);
@@ -26,12 +26,13 @@ const Pets = ({ petList }) => {
 
       <div className="d-flex flex-wrap justify-content-center gap-3">
         {!petList?.length ? (
-          <p>Cargando mascotas...</p>
+          <p>No hay mascotas disponibles...</p>
         ) : filteredPets.length ? (
           filteredPets.map((pet) => (
             <PetItem
               key={pet.id}
-              {...pet} // pasa todas las props directamente
+              {...pet}
+              onPetDeleted={onPetDeleted} // pasa todas las props directamente
             />
           ))
         ) : (

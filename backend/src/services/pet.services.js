@@ -14,8 +14,11 @@ export const getAllPets = async (req, res) => {
 export const getPetById = async (req, res) => {
   try {
     const { id } = req.params;
-    const pet = await Pet.findByPk(id, {
-      include: ["Shelter"]
+   const pet = await Pet.findByPk(id, {
+      include: {
+        model: Shelter,
+        attributes: ["id", "name"], 
+      },
     });
     if (!pet) return res.status(404).send("Mascota no encontrada");
     res.json(pet);

@@ -21,7 +21,6 @@ const PetItem = ({
   sex,
   imageUrl,
   state,
-  shelterId,
   onPetDeleted,
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -63,7 +62,6 @@ const PetItem = ({
             <strong>Edad:</strong> {age ?? 'Desconocida'}{' '}
             {age === 1 ? 'año' : 'años'}
             <br />
-            <strong> Refugio: </strong> {shelterId || 'Desconocida'}
           </Card.Text>
           <div className="d-flex gap-2 flex-wrap">
             <Button variant="primary" onClick={clickHandler}>

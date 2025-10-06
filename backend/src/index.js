@@ -22,7 +22,7 @@ app.use(petRoutes);
 const startServer = async () => {
   try {
     //  Se sincroniza base de datos antes de levantar el server
-    await sequelize.sync({ alter: true }); // actualiza tablas si cambian columnas
+    await sequelize.sync(); 
     console.log("Base de datos sincronizada correctamente.");
 
     // Levanta el server

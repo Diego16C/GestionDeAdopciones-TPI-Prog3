@@ -56,7 +56,10 @@ const Dashboard = () => {
       </Row>
 
       <Routes>
-        <Route index element={<Pets petList={petList} />} />
+        <Route
+          index
+          element={<Pets petList={petList} onPetDeleted={fetchPets} />}
+        />
         <Route path=":id" element={<PetDetails petList={petList} />} />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
         <Route
