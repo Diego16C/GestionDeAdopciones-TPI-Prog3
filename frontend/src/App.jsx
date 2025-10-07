@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router'; //con el react-router no me funca
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/dashboard/dashboard';
 import NotFound from './components/ui/notFound/NotFound';
 import Login from './components/login/Login';
@@ -8,7 +8,7 @@ import PetDetails from './components/Pet/petDetails/PetDetails';
 import Protected from './components/protected/Protected';
 import Register from './components/register/Register';
 import { ToastContainer } from 'react-toastify';
-
+import Shelters from './components/shelter/Shelters';
 import GhibliMovies from './ej17del9/GhibliMovies';
 
 function App() {
@@ -19,19 +19,15 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/pets/*" element={<Dashboard />} />
+            <Route path="/shelters" element={<Shelters />} />
           </Route>
           <Route path="/login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      <ToastContainer />
     </div>
   );
 }
-
-//function App() {
-//  return <GhibliMovies />;
-//}
 
 export default App;

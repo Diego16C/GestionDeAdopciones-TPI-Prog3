@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
 import { Species } from "./Species.js";
+import { Shelter } from "./Shelter.js";
 
 export const Pet = sequelize.define("Pet", {
   id: {
@@ -56,3 +57,7 @@ export const Pet = sequelize.define("Pet", {
   tableName: "pets",
   timestamps: false,
 });
+
+// Relaciones
+Shelter.hasMany(Pet, { foreignKey: "shelterId", onDelete: "SET NULL" });
+Pet.belongsTo(Shelter, { foreignKey: "shelterId" });

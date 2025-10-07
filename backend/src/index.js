@@ -1,9 +1,11 @@
 import express from "express";
 import petRoutes from "./routes/pet.routes.js";
+import shelterRoutes from "./routes/shelter.routes.js";
 import { PORT } from "./config.js";
 import { sequelize } from "./db.js";
 
 import "./models/indexModels.js";
+import "./models/associations.js"; // 👈 importante
 
 const app = express();
 
@@ -16,25 +18,20 @@ app.use((req, res, next) => {
   next();
 });
 
-
+app.use("/shelters", shelterRoutes);
 app.use(petRoutes);
 
 const startServer = async () => {
   try {
-    //  Se sincroniza base de datos antes de levantar el server
     await sequelize.sync(); 
     console.log("Base de datos sincronizada correctamente.");
-
-    // Levanta el server
     app.listen(PORT, () => {
       console.log(`Servidor escuchando en el puerto ${PORT}`);
     });
-
   } catch (error) {
     console.error("Error al iniciar el servidor:", error);
-    process.exit(1); // salir del proceso si falla la inicialización
+    process.exit(1);
   }
 };
 
-// ejecuta la función
 startServer();

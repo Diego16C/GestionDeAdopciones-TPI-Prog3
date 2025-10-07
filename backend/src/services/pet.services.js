@@ -14,7 +14,7 @@ export const getAllPets = async (req, res) => {
 export const getPetById = async (req, res) => {
   try {
     const { id } = req.params;
-   const pet = await Pet.findByPk(id, {
+    const pet = await Pet.findByPk(id, {
       include: {
         model: Shelter,
         attributes: ["id", "name"], 
