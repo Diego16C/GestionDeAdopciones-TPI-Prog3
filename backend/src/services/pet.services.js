@@ -3,7 +3,7 @@ import { Pet } from "../models/Pet.js";
 export const getAllPets = async (req, res) => {
   try {
     const pets = await Pet.findAll({
-      include: ["Shelter"] // si quieres incluir datos del shelter
+      include: ["Shelter"] 
     });
     res.json(pets);
   } catch (error) {

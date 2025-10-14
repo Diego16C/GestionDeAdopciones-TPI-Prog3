@@ -9,8 +9,6 @@ import Protected from './components/protected/Protected';
 import Register from './components/register/Register';
 import { ToastContainer } from 'react-toastify';
 
-import GhibliMovies from './ej17del9/GhibliMovies';
-
 function App() {
   return (
     <div>

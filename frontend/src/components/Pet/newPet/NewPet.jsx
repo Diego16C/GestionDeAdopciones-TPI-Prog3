@@ -1,9 +1,11 @@
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { createPet, updatePet } from '../../../services/petServices';
+import { getAllShelters } from '../../../services/shelterServices';
+
 import './newPet.css';
 
 const speciesOptions = {
@@ -54,16 +56,23 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
       description,
       imageUrl,
       available,
+      shelterId: shelterId || null,
       ...(isEdit && { state }),
     };
 
     try {
       if (isEdit) {
         await updatePet(petToEdit.id, petData);
-        toast.info('Mascota actualizada con éxito!');
+        toast.info('Mascota actualizada con éxito!', {
+          autoClose: 3000,
+          onClose: () => navigate('/pets'),
+        });
       } else {
         await createPet(petData);
-        toast.success('Mascota agregada con éxito!');
+        toast.success('Mascota agregada con éxito!', {
+          autoClose: 3000,
+          onClose: () => navigate('/pets'),
+        });
         setName('');
         setSpecies('');
         setAge('');
@@ -75,11 +84,6 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
       }
 
       if (onPetAdded) onPetAdded();
-
-      // Esperar un poco para que se vea el toast antes de navegar
-      setTimeout(() => {
-        navigate('/pets');
-      }, 1000);
     } catch (error) {
       console.error(error);
       toast.error(
@@ -92,6 +96,23 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
     navigate('/pets');
   };
 
+  //useEffect para cargar refugios
+  useEffect(() => {
+    const loadShelters = async () => {
+      try {
+        const data = await getAllShelters();
+        setShelters(data);
+      } catch (error) {
+        console.error('Error al obtener refugios:', error);
+      }
+    };
+
+    loadShelters();
+  }, []);
+
+  const [shelters, setShelters] = useState([]);
+  const [shelterId, setShelterId] = useState(petToEdit?.shelterId || '');
+
   return (
     <div>
       <h2>{isEdit ? 'Editar Mascota' : 'Agregar Mascota'}</h2>
@@ -99,7 +120,7 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
         className="m-4 d-flex justify-content-center flex-wrap"
         bg="success"
       >
-        <Card.Body>
+        <Card.Body style={{ backgroundColor: '#4f8850ff' }}>
           <Form className="text-white" onSubmit={handleSubmit}>
             <Row>
               <Col md={6}>
@@ -168,6 +189,23 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
                     {Object.entries(sexOptions).map(([label, value]) => (
                       <option key={value} value={value}>
                         {label}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+
+              <Col md={10}>
+                <Form.Group className="mb-3" controlId="shelterId">
+                  <Form.Label>Refugio</Form.Label>
+                  <Form.Select
+                    value={shelterId}
+                    onChange={(e) => setShelterId(e.target.value)}
+                  >
+                    <option value="">Seleccionar refugio</option>
+                    {shelters.map((shelter) => (
+                      <option key={shelter.id} value={shelter.id}>
+                        {shelter.name}
                       </option>
                     ))}
                   </Form.Select>
