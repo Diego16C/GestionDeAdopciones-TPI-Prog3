@@ -41,9 +41,11 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Row className="w-100 my-3">
-        <Col />
-        <Col>
+      <Row className="align-items-center w-100 my-3">
+        <Col xs={8} className="d-flex justify-content-center">
+          <h2 className="m-0">Listado de Mascotas</h2>
+        </Col>
+        <Col xs={4} className="d-flex justify-content-end">
           <Button
             className="me-3"
             variant="dark"
@@ -51,7 +53,6 @@ const Dashboard = () => {
           >
             Agregar Mascota
           </Button>
-          <h2>Listado de Mascotas</h2>
         </Col>
       </Row>
 
