@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router'; //con el react-router no me funca
-import Dashboard from './components/dashboard/dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import NotFound from './components/ui/notFound/NotFound';
 import Login from './components/login/Login';
 import MainLayout from './components/layout/MainLayout';

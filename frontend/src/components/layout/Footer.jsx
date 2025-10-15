@@ -1,5 +1,12 @@
 import React from 'react';
 import './Footer.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faMapMarkerAlt,
+  faEnvelope,
+  faPhone,
+  faPaw,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
   return (
@@ -15,31 +22,24 @@ const Footer = () => {
           referrerPolicy="no-referrer-when-downgrade"
           title="Ubicación"
         ></iframe>
-        <p>Veterinaria Sweet Pet</p>
         <p>
-          <i className="fas fa-map-marker-alt"></i> Shopping del Siglo 1851,
+          <FontAwesomeIcon icon={faPaw} />
+          Adopcion de Animales
+        </p>
+        <p>
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> Shopping del Siglo 1851,
           Rosario, Santa Fe
         </p>
         <p>
-          <i className="fas fa-envelope"></i> quieroaprobarp2@gmail.com
+          <FontAwesomeIcon icon={faEnvelope} />{' '}
+          quieroaprobarprogramacion3@gmail.com
         </p>
         <p>
-          <i className="fas fa-phone"></i> 4851242
+          <FontAwesomeIcon icon={faPhone} /> 4851242
         </p>
         <p>
-          <i className="fas fa-phone"></i> (0341) 640-2289
+          <FontAwesomeIcon icon={faPhone} /> (0341) 640-2289
         </p>
-        <div className="social-icons">
-          <a href="#" aria-label="Facebook">
-            <i className="fab fa-facebook-f"></i>
-          </a>
-          <a href="#" aria-label="Instagram">
-            <i className="fab fa-instagram"></i>
-          </a>
-          <a href="#" aria-label="WhatsApp">
-            <i className="fab fa-whatsapp"></i>
-          </a>
-        </div>
       </div>
 
       <div className="footer-section quick-access">

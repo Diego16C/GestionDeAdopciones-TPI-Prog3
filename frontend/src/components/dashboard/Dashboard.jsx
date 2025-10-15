@@ -42,10 +42,17 @@ const Dashboard = () => {
   return (
     <div>
       <Row className="align-items-center w-100 my-3">
-        <Col xs={8} className="d-flex justify-content-center">
-          <h2 className="m-0">Listado de Mascotas</h2>
+        <Col
+          xs={8}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <div
+            style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}
+          >
+            <h2 className="text-center m-0">Listado de Mascotas</h2>
+          </div>
         </Col>
-        <Col xs={4} className="d-flex justify-content-end">
+        <Col xs={4} className="d-flex justify-content-end align-items-center">
           <Button
             className="me-3"
             variant="dark"

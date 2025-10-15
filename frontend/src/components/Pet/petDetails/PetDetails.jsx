@@ -54,7 +54,7 @@ const PetDetails = ({ petList }) => {
             <strong>En Refugio:</strong>{' '}
             {Shelter ? Shelter.name : 'Sin refugio'}
           </Card.Text>
-          <Button className="me-2" onClick={clickHandler}>
+          <Button className="me-2" onClick={clickHandler} variant="danger">
             Volver
           </Button>
           <Button

@@ -63,10 +63,11 @@ const PetItem = ({
             {age === 1 ? 'año' : 'años'}
             <br />
           </Card.Text>
-          <div className="d-flex gap-2 flex-wrap">
+          <div className="d-flex flex-column align-items-center gap-2 mt-2">
             <Button variant="primary" onClick={clickHandler}>
               Ver Más
             </Button>
+
             <Button variant="danger" onClick={() => setShowModal(true)}>
               Eliminar Mascota
             </Button>
