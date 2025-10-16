@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { createPet, updatePet } from '../../../services/petServices';
+import { getAllShelters } from '../../../services/shelterServices';
+
 import './newPet.css';
 
 const speciesOptions = {
@@ -42,48 +44,35 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
   const [available, setAvailable] = useState(petToEdit?.available ?? true);
   const [state, setState] = useState(petToEdit?.state || 'En adopcion');
 
-  // 🔹 Nuevos estados para refugios
-  const [shelters, setShelters] = useState([]);
-  const [shelterId, setShelterId] = useState(petToEdit?.shelterId || '');
-
-  // 🔹 Cargar refugios al montar el componente
-  useEffect(() => {
-    const fetchShelters = async () => {
-      try {
-        const res = await fetch('http://localhost:3000/shelters');
-        const data = await res.json();
-        setShelters(data);
-      } catch (err) {
-        console.error('Error cargando refugios:', err);
-      }
-    };
-    fetchShelters();
-  }, []);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const petData = {
       name,
       species,
-      age: age ? parseInt(age) : null,
+      age,
       breed,
       sex,
       description,
       imageUrl,
       available,
-      shelterId, // 👈 agregamos el refugio seleccionado
+      shelterId: shelterId || null,
       ...(isEdit && { state }),
     };
 
     try {
       if (isEdit) {
         await updatePet(petToEdit.id, petData);
-        toast.info('Mascota actualizada con éxito!');
+        toast.info('Mascota actualizada con éxito!', {
+          autoClose: 3000,
+          onClose: () => navigate('/pets'),
+        });
       } else {
         await createPet(petData);
-        toast.success('Mascota agregada con éxito!');
-        // Limpiar formulario
+        toast.success('Mascota agregada con éxito!', {
+          autoClose: 3000,
+          onClose: () => navigate('/pets'),
+        });
         setName('');
         setSpecies('');
         setAge('');
@@ -92,18 +81,14 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
         setDescription('');
         setImageUrl('');
         setAvailable(true);
-        setShelterId('');
       }
 
       if (onPetAdded) onPetAdded();
-
-      // Esperar un poco para que se vea el toast antes de navegar
-      setTimeout(() => {
-        navigate('/pets');
-      }, 1000);
     } catch (error) {
       console.error(error);
-      toast.error(isEdit ? 'Error actualizando mascota' : 'Error agregando mascota');
+      toast.error(
+        isEdit ? 'Error actualizando mascota' : 'Error agregando mascota'
+      );
     }
   };
 
@@ -111,11 +96,31 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
     navigate('/pets');
   };
 
+  //useEffect para cargar refugios
+  useEffect(() => {
+    const loadShelters = async () => {
+      try {
+        const data = await getAllShelters();
+        setShelters(data);
+      } catch (error) {
+        console.error('Error al obtener refugios:', error);
+      }
+    };
+
+    loadShelters();
+  }, []);
+
+  const [shelters, setShelters] = useState([]);
+  const [shelterId, setShelterId] = useState(petToEdit?.shelterId || '');
+
   return (
     <div>
       <h2>{isEdit ? 'Editar Mascota' : 'Agregar Mascota'}</h2>
-      <Card className="m-4 d-flex justify-content-center flex-wrap" bg="success">
-        <Card.Body>
+      <Card
+        className="m-4 d-flex justify-content-center flex-wrap"
+        bg="success"
+      >
+        <Card.Body style={{ backgroundColor: '#4f8850ff' }}>
           <Form className="text-white" onSubmit={handleSubmit}>
             <Row>
               <Col md={6}>
@@ -126,7 +131,6 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
                     placeholder="Ingresar nombre"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                   />
                 </Form.Group>
               </Col>
@@ -136,11 +140,12 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
                   <Form.Select
                     value={species}
                     onChange={(e) => setSpecies(e.target.value)}
-                    required
                   >
                     <option value="">Seleccionar especie</option>
                     {Object.entries(speciesOptions).map(([label, value]) => (
-                      <option key={value} value={value}>{label}</option>
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
                     ))}
                   </Form.Select>
                 </Form.Group>
@@ -173,30 +178,35 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
                 </Form.Group>
               </Col>
 
-              <Col md={6}>
+              <Col md={2}>
                 <Form.Group className="mb-3" controlId="sex">
                   <Form.Label>Sexo</Form.Label>
-                  <Form.Select value={sex} onChange={(e) => setSex(e.target.value)}>
+                  <Form.Select
+                    value={sex}
+                    onChange={(e) => setSex(e.target.value)}
+                  >
                     <option value="">Seleccionar sexo</option>
                     {Object.entries(sexOptions).map(([label, value]) => (
-                      <option key={value} value={value}>{label}</option>
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
                     ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
 
-              {/* 🔹 Select de refugios */}
-              <Col md={6}>
+              <Col md={10}>
                 <Form.Group className="mb-3" controlId="shelterId">
                   <Form.Label>Refugio</Form.Label>
                   <Form.Select
                     value={shelterId}
                     onChange={(e) => setShelterId(e.target.value)}
-                    required
                   >
                     <option value="">Seleccionar refugio</option>
-                    {shelters.map((s) => (
-                      <option key={s.id} value={s.id}>{s.name}</option>
+                    {shelters.map((shelter) => (
+                      <option key={shelter.id} value={shelter.id}>
+                        {shelter.name}
+                      </option>
                     ))}
                   </Form.Select>
                 </Form.Group>

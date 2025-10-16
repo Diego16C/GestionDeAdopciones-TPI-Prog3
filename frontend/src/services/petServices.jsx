@@ -1,5 +1,4 @@
-// src/services/petService.js
-const API_URL = 'http://localhost:3000'; // Ajustar si tu backend corre en otro puerto
+const API_URL = 'http://localhost:3000';
 
 export const getAllPets = async () => {
   const res = await fetch(`${API_URL}/pets`);

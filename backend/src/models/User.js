@@ -18,7 +18,7 @@ export const User = sequelize.define("User", {
   email: {  
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true, // cada usuario debe tener email único
+    unique: true, 
     validate: {
       isEmail: true,
     },
@@ -37,6 +37,6 @@ export const User = sequelize.define("User", {
     allowNull: false,
   }
 }, {
-  tableName: "users",   // mejor plural y minúscula
-  timestamps: false,    // si no usás createdAt/updatedAt
+  tableName: "users",   
+  timestamps: false,    
 });

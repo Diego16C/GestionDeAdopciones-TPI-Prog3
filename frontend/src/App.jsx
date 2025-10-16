@@ -1,15 +1,14 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from './components/dashboard/dashboard';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import Dashboard from './components/dashboard/Dashboard';
 import NotFound from './components/ui/notFound/NotFound';
 import Login from './components/login/Login';
 import MainLayout from './components/layout/MainLayout';
 import PetDetails from './components/Pet/petDetails/PetDetails';
-import Protected from './components/protected/Protected';
 import Register from './components/register/Register';
 import { ToastContainer } from 'react-toastify';
-import Shelters from './components/shelter/Shelters';
-import GhibliMovies from './ej17del9/GhibliMovies';
+import NewShelters from './components/shelter/newShelters/NewShelters';
+import SheltersPage from './components/shelter/sheltersPage/SheltersPage';
 
 function App() {
   return (
@@ -19,7 +18,9 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/pets/*" element={<Dashboard />} />
-            <Route path="/shelters" element={<Shelters />} />
+            <Route path="/shelters" element={<SheltersPage />} />
+            <Route path='/shelters/:id' element={<PetDetails />} />
+            <Route path="/new-shelter" element={<NewShelters />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -31,3 +32,4 @@ function App() {
 }
 
 export default App;
+
