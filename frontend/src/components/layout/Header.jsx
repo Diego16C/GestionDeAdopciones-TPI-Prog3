@@ -1,11 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router';
 import './header.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => (
   <header className="header">
     <div className="header-top">
-      <h1>Adopción de Animales</h1>
+      <h1 style={{ fontSize: '40px' }}>
+        {' '}
+        <FontAwesomeIcon icon={faPaw} /> Adopción de Animales
+      </h1>
       <div className="auth-buttons">
         <Link to="/login" className="btn-login">
           Iniciar sesión

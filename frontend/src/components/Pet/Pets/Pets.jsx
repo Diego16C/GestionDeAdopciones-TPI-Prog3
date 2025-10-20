@@ -72,7 +72,8 @@ const Pets = ({ petList, onPetDeleted }) => {
             <PetItem
               key={pet.id}
               {...pet}
-              onPetDeleted={onPetDeleted}
+              onPetDeleted={onPetDeleted} // pasa todas las props directamente
+              isWorkerView={true}
             />
           ))
         ) : (

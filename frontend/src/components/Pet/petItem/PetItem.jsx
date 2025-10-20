@@ -1,7 +1,7 @@
 import { Badge, Card, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import MyModal from '../../ui/modal/MyModal';
+import DeleteModal from '../../ui/modal/DeleteModal';
 import { deletePet } from '../../../services/petServices';
 import { toast } from 'react-toastify';
 
@@ -22,11 +22,18 @@ const PetItem = ({
   imageUrl,
   state,
   onPetDeleted,
+  isWorkerView = false,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const clickHandler = () => navigate(`/pets/${id}`);
+  const clickHandler = () => {
+    if (isWorkerView) {
+      navigate(`/pets/${id}`);
+    } else {
+      navigate(`/adopt/${id}`);
+    }
+  };
 
   const handleConfirmDelete = async () => {
     setShowModal(false);
@@ -41,11 +48,12 @@ const PetItem = ({
 
   return (
     <>
-      <Card style={{ width: '15rem' }} className="mx-3 mb-3">
+      <Card style={{ width: '15rem' }} className="mx-3 mb-3 shadow-sm">
         <Card.Img
           height={300}
           variant="top"
           src={imageUrl || 'https://bit.ly/47NylZk'}
+          alt={name}
         />
         <Card.Body>
           <div className="mb-2">
@@ -55,26 +63,29 @@ const PetItem = ({
           </div>
           <Card.Title>{name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{species}</Card.Subtitle>
+
           <Card.Text>
             <strong>Raza:</strong> {breed || 'Desconocida'} <br />
-            <strong> Sexo: </strong> {sex || 'Desconocida'}
-            <br />
+            <strong>Sexo:</strong> {sex || 'Desconocido'} <br />
             <strong>Edad:</strong> {age ?? 'Desconocida'}{' '}
             {age === 1 ? 'año' : 'años'}
-            <br />
           </Card.Text>
-          <div className="d-flex gap-2 flex-wrap">
+
+          <div className="d-flex flex-column align-items-center gap-2 mt-2">
             <Button variant="primary" onClick={clickHandler}>
               Ver Más
             </Button>
-            <Button variant="danger" onClick={() => setShowModal(true)}>
-              Eliminar Mascota
-            </Button>
+
+            {isWorkerView && (
+              <Button variant="danger" onClick={() => setShowModal(true)}>
+                Eliminar Mascota
+              </Button>
+            )}
           </div>
         </Card.Body>
       </Card>
 
-      <MyModal
+      <DeleteModal
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmDelete}

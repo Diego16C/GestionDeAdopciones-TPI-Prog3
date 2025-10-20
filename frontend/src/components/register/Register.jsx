@@ -1,106 +1,68 @@
-import { useState } from "react";
-import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useState } from 'react';
+import { registerUser } from '../../services/authServices';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-const Register = ({ onRegister }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user"); // 👈 por defecto usuario normal
-  const [errors, setErrors] = useState({ email: false, password: false });
-
+const Register = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setErrors({ ...errors, email: false });
-  };
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    setErrors({ ...errors, password: false });
-  };
-
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!email.length) {
-      setErrors({ ...errors, email: true });
-      alert("Email vacío");
-      return;
-    } else if (!password.length || password.length < 6) {
-      setErrors({ ...errors, password: true });
-      alert("La contraseña debe tener al menos 6 caracteres");
-      return;
+    try {
+      await registerUser(formData);
+      toast.success('Usuario registrado correctamente 🎉');
+      navigate('/login');
+    } catch {
+      toast.error('Error al registrarse ❌');
     }
-
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-    if (storedUsers.some((user) => user.email === email)) {
-    alert("Ya existe un usuario registrado con ese email");
-    return;
-    }
-
-    // Armamos el objeto usuario
-    const newUser = { email, password, role };
-    storedUsers.push(newUser);
-
-    alert(`Usuario registrado: ${email} con rol ${role}`);
-    setEmail("");
-    setPassword("");
-    setRole("user");
-
-    // lo podemos redirigir al login
-    navigate("/login");
   };
 
   return (
-    <Card className="mt-5 mx-3 p-3 px-5 shadow">
-      <Card.Body>
-        <Row className="mb-2">
-          <h5>Registro de Usuario</h5>
-        </Row>
-        <Form onSubmit={handleSubmit}>
-          <FormGroup className="mb-4">
-            <Form.Control
-              type="email"
-              placeholder="Ingresar email"
-              onChange={handleEmailChange}
-              value={email}
-              className={errors.email && "border border-danger"}
-            />
-          </FormGroup>
-          <FormGroup className="mb-4">
-            <Form.Control
-              type="password"
-              placeholder="Ingresar contraseña"
-              onChange={handlePasswordChange}
-              value={password}
-              className={errors.password && "border border-danger"}
-            />
-          </FormGroup>
-          <FormGroup className="mb-4">
-            <Form.Label>Rol de usuario</Form.Label>
-            <Form.Select value={role} onChange={handleRoleChange}>
-              <option value="superadmin">Super Admin</option>
-              <option value="admin">Admin</option>
-              <option value="user">Usuario normal</option>
-            </Form.Select>
-          </FormGroup>
-          <Row>
-            <Col />
-            <Col md={6} className="d-flex justify-content-end">
-              <Button variant="success" type="submit">
-                Registrarse
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Card.Body>
-    </Card>
+    <div className="container mt-5">
+      <h2>Registrarse</h2>
+      <form onSubmit={handleSubmit} className="w-50 mx-auto">
+        <div className="mb-3">
+          <label>Nombre:</label>
+          <input
+            name="name"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.name}
+          />
+        </div>
+        <div className="mb-3">
+          <label>Email:</label>
+          <input
+            name="email"
+            type="email"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.email}
+          />
+        </div>
+        <div className="mb-3">
+          <label>Contraseña:</label>
+          <input
+            name="password"
+            type="password"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.password}
+          />
+        </div>
+        <button className="btn btn-success w-100" type="submit">
+          Registrarse
+        </button>
+      </form>
+    </div>
   );
 };
 

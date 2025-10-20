@@ -9,22 +9,22 @@ import { getAllShelters } from '../../../services/shelterServices';
 import './newPet.css';
 
 const speciesOptions = {
-  Dog: 'dog',
-  Cat: 'cat',
-  Bird: 'bird',
-  Fish: 'fish',
+  Perro: 'dog',
+  Gato: 'cat',
+  Ave: 'bird',
+  Pez: 'fish',
   Hamster: 'hamster',
-  Rabbit: 'rabbit',
-  Tortoise: 'tortoise',
-  Rodent: 'rodent',
-  Reptile: 'reptile',
-  Horse: 'horse',
-  Other: 'other',
+  Conejo: 'rabbit',
+  Tortuga: 'tortoise',
+  Roedor: 'rodent',
+  Reptil: 'reptile',
+  Caballo: 'horse',
+  Otro: 'other',
 };
 
 const sexOptions = {
-  Male: 'macho',
-  Female: 'hembra',
+  Macho: 'macho',
+  Hembra: 'hembra',
 };
 
 const stateOptions = ['Adoptado', 'En adopcion', 'Pendiente', 'En Pausa'];
@@ -115,7 +115,9 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
 
   return (
     <div>
-      <h2>{isEdit ? 'Editar Mascota' : 'Agregar Mascota'}</h2>
+      <h2 style={{ fontSize: '30px', color: 'grey' }}>
+        {isEdit ? 'Editar Mascota' : 'Agregar Mascota'}
+      </h2>
       <Card
         className="m-4 d-flex justify-content-center flex-wrap"
         bg="success"
@@ -238,34 +240,38 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
             </Row>
 
             {isEdit && (
-              <Row className="justify-content-end">
-                <Col className="d-flex flex-column justify-content-center">
+              <Row className="justify-content-center my-3">
+                <Col xs="auto" className="text-center">
                   <Form.Label>Estado de adopción:</Form.Label>
-                  {stateOptions.map((option) => (
-                    <Form.Check
-                      type="radio"
-                      id={`state-${option}`}
-                      key={option}
-                      name="state"
-                      label={option}
-                      value={option}
-                      checked={state === option}
-                      onChange={(e) => setState(e.target.value)}
-                      className="mb-2"
-                    />
-                  ))}
+                  <div className="d-flex justify-content-center flex-wrap gap-3">
+                    {stateOptions.map((option) => (
+                      <Form.Check
+                        type="radio"
+                        id={`state-${option}`}
+                        key={option}
+                        name="state"
+                        label={option}
+                        value={option}
+                        checked={state === option}
+                        onChange={(e) => setState(e.target.value)}
+                        className="mb-0"
+                      />
+                    ))}
+                  </div>
                 </Col>
               </Row>
             )}
 
-            <Row className="justify-content-end mt-2">
-              <Col className="d-flex flex-column justify-content-center align-items-center">
-                <Button variant="primary" type="submit" className="mb-2">
-                  {isEdit ? 'Guardar Cambios' : 'Agregar Mascota'}
-                </Button>
-                <Button variant="danger" onClick={clickHandler}>
-                  Volver
-                </Button>
+            <Row className="justify-content-center mt-3">
+              <Col xs="auto">
+                <div className="d-flex justify-content-center align-items-center gap-3">
+                  <Button variant="primary" type="submit">
+                    {isEdit ? 'Guardar Cambios' : 'Agregar Mascota'}
+                  </Button>
+                  <Button variant="danger" onClick={clickHandler}>
+                    Volver
+                  </Button>
+                </div>
               </Col>
             </Row>
           </Form>

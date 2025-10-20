@@ -19,7 +19,7 @@ const EditPet = ({ petList, onPetUpdated }) => {
   return <NewPet petToEdit={petToEdit} onPetAdded={onPetUpdated} />;
 };
 
-const Dashboard = () => {
+const DashboardABMpets = () => {
   const [petList, setPetList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showPetForm, setShowPetForm] = useState(false); 
@@ -50,9 +50,24 @@ const Dashboard = () => {
   return (
     <div>
       <Row className="align-items-center w-100 my-3">
-        <Col xs={6}><h2>Listado de Mascotas</h2></Col>
-        <Col xs={6} className="d-flex justify-content-end gap-2">
-          <Button variant="dark" onClick={() => navigate('/pets/add-pet')}>
+        <Col
+          xs={8}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <div
+            style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}
+          >
+            <h2 className="text-center m-0" style={{ textAlign: 'center' }}>
+              Gestión de Mascotas
+            </h2>
+          </div>
+        </Col>
+        <Col xs={4} className="d-flex justify-content-end align-items-center">
+          <Button
+            className="me-3"
+            variant="dark"
+            onClick={handleNavigateToAddPet}
+          >
             Agregar Mascota
           </Button>
           <Button variant="secondary" onClick={() => navigate('/shelters')}>
@@ -69,8 +84,16 @@ const Dashboard = () => {
 
       {/* Rutas anidadas */}
       <Routes>
-        <Route index element={<Pets petList={petList} onPetDeleted={fetchPets} />} />
-        <Route path=":id" element={<PetDetails petList={petList} />} />
+        <Route
+          index
+          element={<Pets petList={petList} onPetDeleted={fetchPets} />}
+        />
+        <Route
+          path=":id"
+          element={
+            <PetDetails key="worker" petList={petList} isWorkerView={true} />
+          }
+        />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
         <Route path="edit/:id" element={<EditPet petList={petList} onPetUpdated={fetchPets} />} />
       </Routes>
@@ -78,4 +101,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardABMpets;
