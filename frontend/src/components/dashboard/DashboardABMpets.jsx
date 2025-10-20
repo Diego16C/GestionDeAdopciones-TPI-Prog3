@@ -19,7 +19,7 @@ const EditPet = ({ petList, onPetUpdated }) => {
   return <NewPet petToEdit={petToEdit} onPetAdded={onPetUpdated} />;
 };
 
-const Dashboard = () => {
+const DashboardABMpets = () => {
   const [petList, setPetList] = useState([]);
   const navigate = useNavigate();
 
@@ -49,7 +49,9 @@ const Dashboard = () => {
           <div
             style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}
           >
-            <h2 className="text-center m-0">Listado de Mascotas</h2>
+            <h2 className="text-center m-0" style={{ textAlign: 'center' }}>
+              Gestión de Mascotas
+            </h2>
           </div>
         </Col>
         <Col xs={4} className="d-flex justify-content-end align-items-center">
@@ -68,7 +70,12 @@ const Dashboard = () => {
           index
           element={<Pets petList={petList} onPetDeleted={fetchPets} />}
         />
-        <Route path=":id" element={<PetDetails petList={petList} />} />
+        <Route
+          path=":id"
+          element={
+            <PetDetails key="worker" petList={petList} isWorkerView={true} />
+          }
+        />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
         <Route
           path="edit/:id"
@@ -79,4 +86,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardABMpets;

@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const MyModal = ({ show, onClose, onConfirm }) => {
+const ConfirmAdoptModal = ({ show, onClose, onConfirm }) => {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
@@ -9,7 +9,7 @@ const MyModal = ({ show, onClose, onConfirm }) => {
       </Modal.Header>
 
       <Modal.Body>
-        <p>¿Estás seguro de que querés eliminar esta Mascota?</p>
+        <p>¿Confirmar solicitud de adopción?</p>
       </Modal.Body>
 
       <Modal.Footer>
@@ -24,4 +24,4 @@ const MyModal = ({ show, onClose, onConfirm }) => {
   );
 };
 
-export default MyModal;
+export default ConfirmAdoptModal;

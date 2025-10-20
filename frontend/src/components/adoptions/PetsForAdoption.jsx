@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import PetSearch from '../petSearch/PetSearch';
-import PetItem from '../petItem/PetItem';
+import PetSearch from '../Pet/petSearch/PetSearch';
+import PetItem from '../Pet/petItem/PetItem';
 
-const Pets = ({ petList, onPetDeleted }) => {
+const PetsForAdoption = ({ petList }) => {
   const [search, setSearch] = useState('');
 
   const handleSearch = (value) => setSearch(value);
@@ -29,12 +29,7 @@ const Pets = ({ petList, onPetDeleted }) => {
           <p>No hay mascotas disponibles...</p>
         ) : filteredPets.length ? (
           filteredPets.map((pet) => (
-            <PetItem
-              key={pet.id}
-              {...pet}
-              onPetDeleted={onPetDeleted} // pasa todas las props directamente
-              isWorkerView={true}
-            />
+            <PetItem key={pet.id} {...pet} isWorkerView={false} />
           ))
         ) : (
           <p>No se encontraron mascotas</p>
@@ -44,4 +39,4 @@ const Pets = ({ petList, onPetDeleted }) => {
   );
 };
 
-export default Pets;
+export default PetsForAdoption;

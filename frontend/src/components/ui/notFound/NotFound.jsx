@@ -6,7 +6,7 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   const handleBackLogin = () => {
-    navigate('/pets');
+    navigate('/');
   };
 
   return (

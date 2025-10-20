@@ -1,4 +1,5 @@
 import { Pet } from "../models/Pet.js";
+import { Shelter } from "../models/Shelter.js";
 
 export const getAllPets = async (req, res) => {
   try {
@@ -118,6 +119,30 @@ export const getAvailablePets = async (req, res) => {
   }
 };
 
+
+
+
+export const getInAdoptionPets = async (req, res) => {
+  try {
+    const pets = await Pet.findAll({
+      where: { state: "En adopcion", available: true },
+      include: [
+        {
+          model: Shelter,
+          attributes: ["id", "name"],
+        },
+      ],
+    });
+
+    res.json(pets);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al obtener las mascotas en adopción");
+  }
+};
+
+
+
 export const PetService = {
   getAllPets,
   getPetById,
@@ -125,5 +150,6 @@ export const PetService = {
   updatePet,  
   deletePet,
   deletePetDef,
-  getAvailablePets
+  getAvailablePets,
+  getInAdoptionPets
 };

@@ -44,7 +44,7 @@ export const Pet = sequelize.define("Pet", {
   },
   shelterId: {
       type: DataTypes.INTEGER,
-      allowNull: true, // la mascota puede no estar asignada a un shelter
+      allowNull: false, // la mascota puede no estar asignada a un shelter
       references: {
         model: "shelters", // nombre de la tabla
         key: "id",

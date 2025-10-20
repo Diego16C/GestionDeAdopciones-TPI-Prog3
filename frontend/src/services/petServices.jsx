@@ -46,3 +46,8 @@ export const deletePetDef = async (id) => {
   });
   return res.text();
 };
+
+export const getInAdoptionPets = async () => {
+  const res = await fetch(`${API_URL}/pets/in-adoption`);
+  return res.json();
+};
