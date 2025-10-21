@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Row, Col, Button, Spinner } from 'react-bootstrap';
-import { useNavigate, Routes, Route } from 'react-router';
+import { useNavigate, Routes, Route, useParams } from 'react-router';
 import Pets from '../Pet/Pets/Pets';
 import NewPet from '../Pet/newPet/NewPet';
 import PetDetails from '../Pet/petDetails/PetDetails';
 import { getAvailablePets } from '../../services/petServices';
-import { useParams } from 'react-router';
-import NewShelter from '../shelter/newShelters/NewShelters'; 
 
 const EditPet = ({ petList, onPetUpdated }) => {
   const { id } = useParams();
   if (!petList || petList.length === 0) return <Spinner animation="border" className="d-block mx-auto my-5" />;
 
   const petToEdit = petList.find((p) => String(p.id) === id);
-
   if (!petToEdit) return <div>Mascota no encontrada</div>;
 
   return <NewPet petToEdit={petToEdit} onPetAdded={onPetUpdated} />;
@@ -22,8 +19,6 @@ const EditPet = ({ petList, onPetUpdated }) => {
 const DashboardABMpets = () => {
   const [petList, setPetList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showPetForm, setShowPetForm] = useState(false); 
-  const [showShelterForm, setShowShelterForm] = useState(false); 
   const navigate = useNavigate();
 
   const fetchPets = async () => {
@@ -38,62 +33,38 @@ const DashboardABMpets = () => {
   };
 
   useEffect(() => {
-    if (petList.length === 0) {
-      fetchPets();
-    } else {
-      setLoading(false);
-    }
-  }, [petList]);
+    fetchPets();
+  }, []);
+
+  const handleNavigateToAddPet = () => {
+    navigate('add-pet'); 
+  };
 
   if (loading) return <Spinner animation="border" className="d-block mx-auto my-5" />;
 
   return (
     <div>
       <Row className="align-items-center w-100 my-3">
-        <Col
-          xs={8}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <div
-            style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}
-          >
-            <h2 className="text-center m-0" style={{ textAlign: 'center' }}>
-              Gestión de Mascotas
-            </h2>
-          </div>
-        </Col>
-        <Col xs={4} className="d-flex justify-content-end align-items-center">
-          <Button
-            className="me-3"
-            variant="dark"
-            onClick={handleNavigateToAddPet}
-          >
-            Agregar Mascota
+        <Col xs={1} className="d-flex justify-content-start">
+          <Button variant="secondary" onClick={() => navigate('/worker')}>
+            Volver
           </Button>
-          <Button variant="secondary" onClick={() => navigate('/shelters')}>
-            Refugios
+        </Col>
+        <Col xs={10} className="d-flex justify-content-center align-items-center">
+          <h2 className="text-center m-0">Gestión de Mascotas</h2>
+        </Col>
+        <Col xs={1} className="d-flex justify-content-end">
+          <Button variant="dark" onClick={handleNavigateToAddPet}>
+            Agregar Mascota
           </Button>
         </Col>
       </Row>
 
-      {/* Formularios */}
-      {showPetForm && <NewPet onPetAdded={fetchPets} />}
-      {showShelterForm && <NewShelter onShelterAdded={() => setShowShelterForm(false)} />}
-
       <h2 className="mt-4 mb-3">Listado de Mascotas</h2>
 
-      {/* Rutas anidadas */}
       <Routes>
-        <Route
-          index
-          element={<Pets petList={petList} onPetDeleted={fetchPets} />}
-        />
-        <Route
-          path=":id"
-          element={
-            <PetDetails key="worker" petList={petList} isWorkerView={true} />
-          }
-        />
+        <Route index element={<Pets petList={petList} onPetDeleted={fetchPets} />} />
+        <Route path=":id" element={<PetDetails key="worker" petList={petList} isWorkerView={true} />} />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
         <Route path="edit/:id" element={<EditPet petList={petList} onPetUpdated={fetchPets} />} />
       </Routes>

@@ -12,7 +12,12 @@ const EditShelter = ({ shelterList, onShelterUpdated }) => {
 
     if (!shelterToEdit) return <div>Refugio no encontrado</div>;
 
-    return <NewShelters shelterToEdit={shelterToEdit} onShelterAdded={onShelterUpdated} />;
+    return (
+        <NewShelters
+            shelterToEdit={shelterToEdit}
+            onShelterAdded={onShelterUpdated}
+        />
+    );
 };
 
 export default EditShelter;

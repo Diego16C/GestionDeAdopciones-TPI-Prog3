@@ -1,0 +1,102 @@
+.page-container {
+    background: linear-gradient(135deg, #6a884f, #8fcf7c);
+    min-height: 100vh;
+    padding: 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #f9f9f9;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Título principal */
+.page-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Subtítulo */
+.page-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: #f2f2f2;
+    max-width: 700px;
+    line-height: 1.5;
+}
+
+/* Formulario */
+.page-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+/* Campos de entrada */
+.page-form input,
+.page-form textarea {
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    background: #fefefe;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.page-form input:focus,
+.page-form textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(110, 180, 90, 0.4);
+}
+
+/* Área de texto */
+.page-form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* Botón */
+.page-btn {
+    background-color: #6a884f;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: #55703d;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2.3rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .page-form {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+}

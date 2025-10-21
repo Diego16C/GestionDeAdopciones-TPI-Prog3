@@ -14,12 +14,18 @@ const EditShelter = ({ shelterList, onShelterUpdated }) => {
     const shelterToEdit = shelterList.find((s) => String(s.id) === id);
     if (!shelterToEdit) return <div>Refugio no encontrado</div>;
 
-    return <NewShelter shelterToEdit={shelterToEdit} onShelterAdded={onShelterUpdated} />;
+    return (
+        <NewShelter
+            shelterToEdit={shelterToEdit}
+            onShelterAdded={onShelterUpdated}
+        />
+    );
 };
 
 const DashboardABMshelters = () => {
     const [shelterList, setShelterList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const fetchShelters = async () => {
@@ -51,20 +57,30 @@ const DashboardABMshelters = () => {
         <div>
             {/* Título y botones */}
             <Row className="align-items-center w-100 my-3">
-                <Col xs={8} className="d-flex justify-content-center align-items-center">
-                    <div style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}>
-                        <h2 className="text-center m-0">Gestión de Refugios</h2>
-                    </div>
+                {/* Columna izquierda: botón Volver */}
+                <Col xs={4} className="d-flex justify-content-start">
+                    <Button variant="secondary" onClick={() => navigate('/worker')}>
+                        Volver
+                    </Button>
                 </Col>
-                <Col xs={4} className="d-flex justify-content-end align-items-center">
+
+                {/* Columna central: título */}
+                <Col xs={4} className="d-flex justify-content-center">
+                    <h2 className="m-0">Gestión de Refugios</h2>
+                </Col>
+
+                {/* Columna derecha: botón Agregar */}
+                <Col xs={4} className="d-flex justify-content-end">
                     <Button className="me-3" variant="dark" onClick={handleNavigateToAddShelter}>
                         Agregar Refugio
                     </Button>
-                    <Button variant="secondary" onClick={() => navigate('/pets')}>
-                        Mascotas
-                    </Button>
                 </Col>
             </Row>
+
+            {/* Mensaje de feedback */}
+            {message && (
+                <div className="alert alert-info text-center mt-3">{message}</div>
+            )}
 
             <h2 className="mt-4 mb-3">Listado de Refugios</h2>
 
@@ -75,16 +91,27 @@ const DashboardABMshelters = () => {
                     element={<Shelters shelters={shelterList} onShelterDeleted={fetchShelters} />}
                 />
                 <Route
-                    path=":id"
-                    element={<ShelterDetails key="shelter" shelterList={shelterList} />}
-                />
-                <Route
                     path="add-shelter"
-                    element={<NewShelter onShelterAdded={fetchShelters} />}
+                    element={
+                        <NewShelter
+                            onShelterAdded={(s, msg) => {
+                                fetchShelters();
+                                setMessage(msg);
+                            }}
+                        />
+                    }
                 />
                 <Route
                     path="edit/:id"
-                    element={<EditShelter shelterList={shelterList} onShelterUpdated={fetchShelters} />}
+                    element={
+                        <EditShelter
+                            shelterList={shelterList}
+                            onShelterUpdated={(s, msg) => {
+                                fetchShelters();
+                                setMessage(msg);
+                            }}
+                        />
+                    }
                 />
             </Routes>
         </div>

@@ -1,0 +1,81 @@
+.homepage-container {
+    background: linear-gradient(135deg, #74b9ff, #a29bfe);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Imagen decorativa */
+.homepage-container::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 500px;
+    height: 400px;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    transform: translate(30%, 20%);
+}
+
+.homepage-title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.homepage-subtitle {
+    font-size: 1.3rem;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    color: #f1f1f1;
+}
+
+.homepage-btn {
+    background-color: #f39c12 !important;
+    border: none !important;
+    padding: 15px 40px !important;
+    border-radius: 50px !important;
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+.homepage-btn:hover {
+    background-color: #e67e22 !important;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.already-registered {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.link-login {
+    color: #2c3e50;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.link-login:hover {
+    background-color: #f39c12;
+    color: #fff;
+    transform: scale(1.05);
+}
+

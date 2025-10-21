@@ -4,7 +4,9 @@ import { ToastContainer } from 'react-toastify';
 import DashboardABMshelters from './components/dashboard/DashboardABMshelters.jsx';
 import ProtectedRoute from './components/protected/Protected.jsx';
 import MainLayout from './components/layout/MainLayout.jsx';
-
+import Inquiries from './pages/Inquiries.jsx';
+import Contact from './pages/Contact.jsx';
+import AboutUs from './pages/AboutUs.jsx';
 import HomePage from './components/homePage/HomePage.jsx';
 import DashboardClient from './components/dashboard/dashboardUsers/DashboardClient.jsx';
 import DashboardWorker from './components/dashboard/dashboardUsers/DashboardWorker.jsx';
@@ -64,6 +66,10 @@ function App() {
             }
           />
         </Route>
+
+        <Route path="/inquiries" element={<Inquiries />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about-us" element={<AboutUs />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
