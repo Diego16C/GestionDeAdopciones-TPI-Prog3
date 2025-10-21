@@ -7,17 +7,19 @@ const Shelters = ({ shelters, onShelterDeleted }) => {
 
     const handleSearch = (value) => setSearch(value);
 
-    // 🔹 Filtrado de refugios por búsqueda
     const filteredShelters = useMemo(() => {
         if (!shelters?.length) return [];
-        return shelters.filter((s) =>
-        s.name.toLowerCase().includes(search.toLowerCase())
+
+        const availableShelters = shelters.filter(shelter => shelter.available);
+
+        return availableShelters.filter((shelter) =>
+            shelter.name.toLowerCase().includes(search.toLowerCase())
         );
     }, [shelters, search]);
 
+
     return (
         <div className="d-flex flex-column align-items-center my-5">
-        {/* 🔹 Componente de búsqueda */}
         <div className="w-50 mb-4">
             <ShelterSearch onSearch={handleSearch} search={search} />
         </div>
