@@ -1,6 +1,7 @@
 import { Pet } from "../models/Pet.js";
 import { AdoptionRequest } from "../models/AdoptionRequest.js";
 import { User } from "../models/User.js";
+import { Shelter } from "../models/Shelter.js";
 
 export const requestAdoption = async (req, res) => {
   try {
@@ -130,7 +131,11 @@ export const getPendingRequests = async (req, res) => {
     const pending = await AdoptionRequest.findAll({
       where: { status: "pending" },
       include: [
-        { model: Pet, attributes: ["id", "name", "state"] },
+        {
+          model: Pet,
+          attributes: ["id", "name", "species", "state", "imageUrl"],
+          include: [{ model: Shelter, attributes: ["id", "name"] }],
+        },
         { model: User, attributes: ["id", "name", "email"] },
       ],
     });
@@ -142,18 +147,30 @@ export const getPendingRequests = async (req, res) => {
   }
 };
 
+
 export const getAllUserAdoptionRequests = async (req, res) => {
   try {
     const { userId } = req.params;
+
     const requests = await AdoptionRequest.findAll({
       where: { userId },
       include: [
-        { model: Pet, attributes: ["id", "name", "state"] },
+        {
+          model: Pet,
+          attributes: ['id', 'name', 'species', 'age', 'breed', 'imageUrl', 'state'],
+          include: [{ model: Shelter, attributes: ['id', 'name'] }],
+        },
+        {
+          model: User,
+          as: 'worker',
+          attributes: ['id', 'name', 'surname', 'email'],
+        },
       ],
     });
+
     res.json(requests);
   } catch (error) {
-    console.error("Error al obtener solicitudes de adopción del usuario:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    console.error('Error al obtener solicitudes de adopción del usuario:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
   }
 };

@@ -72,9 +72,7 @@ const DashboardABMpets = () => {
         />
         <Route
           path=":id"
-          element={
-            <PetDetails key="worker" petList={petList} isWorkerView={true} />
-          }
+          element={<PetDetails key="worker" petList={petList} />}
         />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
         <Route

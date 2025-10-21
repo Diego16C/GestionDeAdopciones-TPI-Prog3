@@ -48,7 +48,6 @@
     position: relative;
 }
 
-/* ANIMATED LINE UNDER THE LINK */
 .main-nav a::after {
     content: '';
     position: absolute;
@@ -83,7 +82,6 @@
 
 .auth-buttons {
     margin-left: auto;
-    /* manda los botones a la derecha */
     display: flex;
     gap: 1rem;
 }

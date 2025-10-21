@@ -1,23 +1,20 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import { Modal, Button } from 'react-bootstrap';
 
-const AdoptModal = ({ show, onClose, onConfirm }) => {
+const AdoptModal = ({ show, onClose, onConfirm, petName }) => {
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Confirmar acción</Modal.Title>
+        <Modal.Title>Confirmar Adopción</Modal.Title>
       </Modal.Header>
-
       <Modal.Body>
-        <p>¿Estás seguro de que querés adoptar esta Mascota?</p>
+        ¿Deseas solicitar la adopción de <strong>{petName}</strong>?
       </Modal.Body>
-
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={onConfirm}>
-          Aceptar
+        <Button variant="success" onClick={onConfirm}>
+          Confirmar
         </Button>
       </Modal.Footer>
     </Modal>

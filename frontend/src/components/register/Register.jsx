@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { registerUser } from '../../services/authServices';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
+import { Button } from 'react-bootstrap';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -31,55 +32,80 @@ const Register = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Registrarse</h2>
-      <form onSubmit={handleSubmit} className="w-50 mx-auto">
-        <div className="mb-3">
-          <label>Nombre:</label>
-          <input
-            name="name"
-            className="form-control"
-            onChange={handleChange}
-            value={formData.name}
-          />
-        </div>
+    <div className="container d-flex flex-column align-items-center justify-content-center vh-100">
+      <div
+        className="card shadow p-4"
+        style={{ maxWidth: '400px', width: '100%' }}
+      >
+        <h2 className="text-center mb-4">Crear una cuenta</h2>
 
-        <div className="mb-3">
-          <label>Apellido:</label>
-          <input
-            name="surname" // ✅ corregido
-            className="form-control"
-            onChange={handleChange}
-            value={formData.surname}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label>Nombre:</label>
+            <input
+              name="name"
+              className="form-control"
+              placeholder="Ingrese su nombre"
+              onChange={handleChange}
+              value={formData.name}
+              required
+            />
+          </div>
 
-        <div className="mb-3">
-          <label>Email:</label>
-          <input
-            name="email"
-            type="email"
-            className="form-control"
-            onChange={handleChange}
-            value={formData.email}
-          />
-        </div>
+          <div className="mb-3">
+            <label>Apellido:</label>
+            <input
+              name="surname"
+              className="form-control"
+              placeholder="Ingrese su apellido"
+              onChange={handleChange}
+              value={formData.surname}
+              required
+            />
+          </div>
 
-        <div className="mb-3">
-          <label>Contraseña:</label>
-          <input
-            name="password"
-            type="password"
-            className="form-control"
-            onChange={handleChange}
-            value={formData.password}
-          />
-        </div>
+          <div className="mb-3">
+            <label>Email:</label>
+            <input
+              name="email"
+              type="email"
+              className="form-control"
+              placeholder="Ingrese su email"
+              onChange={handleChange}
+              value={formData.email}
+              required
+            />
+          </div>
 
-        <button className="btn btn-success w-100" type="submit">
-          Registrarse
-        </button>
-      </form>
+          <div className="mb-3">
+            <label>Contraseña:</label>
+            <input
+              name="password"
+              type="password"
+              className="form-control"
+              placeholder="Cree una contraseña"
+              onChange={handleChange}
+              value={formData.password}
+              required
+            />
+          </div>
+
+          <Button variant="success" type="submit" className="w-100">
+            Registrarse
+          </Button>
+        </form>
+
+        <div className="text-center mt-3">
+          <p className="mb-2">¿Ya tenés una cuenta?</p>
+          <Button
+            variant="outline-primary"
+            className="w-100"
+            onClick={() => navigate('/login')}
+          >
+            Iniciar Sesión
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

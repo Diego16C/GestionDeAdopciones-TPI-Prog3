@@ -37,6 +37,7 @@ export const registerUser = async (req, res) => {
       user: {
         id: newUser.id,
         name: newUser.name,
+        surname: newUser.surname,
         email: newUser.email,
         role: newUser.role,
       },
@@ -61,7 +62,7 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Contraseña incorrecta" });
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, surname: user.surname, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: TOKEN_EXPIRATION }
     );
@@ -72,6 +73,7 @@ export const loginUser = async (req, res) => {
       user: {
         id: user.id,
         name: user.name,
+        surname: user.surname,
         email: user.email,
         role: user.role,
       },

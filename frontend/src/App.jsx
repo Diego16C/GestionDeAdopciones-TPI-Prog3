@@ -7,10 +7,11 @@ import ProtectedRoute from './components/protected/Protected.jsx';
 import MainLayout from './components/layout/MainLayout.jsx';
 
 import HomePage from './components/homePage/HomePage.jsx';
-import DashboardClient from './components/dashboard/dashboardUsers/DashboardClient.jsx';
-import DashboardWorker from './components/dashboard/dashboardUsers/DashboardWorker.jsx';
+import MyAdoptions from './components/adoptions/myAdoptions.jsx';
+import DashboardMain from './components/dashboard/dashboardUsers/DashboardMain.jsx';
 import DashboardABMpets from './components/dashboard/DashboardABMpets.jsx';
 import DashboardAdoptionClient from './components/dashboard/DashboardAdoptionClient.jsx';
+import DashboardAdoptionManagement from './components/dashboard/DashboardAdoptionManagement.jsx';
 import Login from './components/login/Login.jsx';
 import Register from './components/register/Register.jsx';
 import NotFound from './components/ui/notFound/NotFound.jsx';
@@ -24,13 +25,14 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           <Route
-            path="/client"
+            path="/dashboard"
             element={
-              <ProtectedRoute roles={['client']}>
-                <DashboardClient />
+              <ProtectedRoute roles={['client', 'worker', 'admin']}>
+                <DashboardMain />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/adopt/*"
             element={
@@ -41,13 +43,14 @@ function App() {
           />
 
           <Route
-            path="/worker"
+            path="/my-adoptions"
             element={
-              <ProtectedRoute roles={['worker', 'admin']}>
-                <DashboardWorker />
+              <ProtectedRoute roles={['client']}>
+                <MyAdoptions />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/pets/*"
             element={
@@ -56,11 +59,19 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/adoptions"
+            element={
+              <ProtectedRoute roles={['worker', 'admin']}>
+                <DashboardAdoptionManagement />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
