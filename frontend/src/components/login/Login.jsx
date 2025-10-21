@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { loginUser } from '../../services/authServices';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -15,14 +15,14 @@ const Login = () => {
     try {
       const data = await loginUser({ email, password });
       login(data.user, data.token);
-      toast.success('Inicio de sesión exitoso 🎉');
+      toast.success('Inicio de sesión exitoso');
 
       if (data.user.role === 'worker') navigate('/worker');
-      else if (data.user.role === 'client') navigate('/cliente');
+      else if (data.user.role === 'client') navigate('/client');
       else navigate('/');
     } catch (error) {
       console.error(error);
-      toast.error('Credenciales inválidas ❌');
+      toast.error('Credenciales inválidas, por favor intente de nuevo');
     }
   };
 

@@ -96,7 +96,6 @@ const NewPet = ({ onPetAdded, petToEdit }) => {
     navigate('/pets');
   };
 
-  //useEffect para cargar refugios
   useEffect(() => {
     const loadShelters = async () => {
       try {
