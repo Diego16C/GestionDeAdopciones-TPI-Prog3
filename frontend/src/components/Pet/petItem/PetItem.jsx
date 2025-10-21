@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import DeleteModal from '../../ui/modal/DeleteModal';
 import { deletePet } from '../../../services/petServices';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../../hooks/useAuth';
 
 const stateColors = {
   Adoptado: 'secondary',
@@ -22,13 +23,13 @@ const PetItem = ({
   imageUrl,
   state,
   onPetDeleted,
-  isWorkerView = false,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const { isWorker } = useAuth();
 
   const clickHandler = () => {
-    if (isWorkerView) {
+    if (isWorker) {
       navigate(`/pets/${id}`);
     } else {
       navigate(`/adopt/${id}`);
@@ -76,7 +77,7 @@ const PetItem = ({
               Ver Más
             </Button>
 
-            {isWorkerView && (
+            {isWorker && (
               <Button variant="danger" onClick={() => setShowModal(true)}>
                 Eliminar Mascota
               </Button>

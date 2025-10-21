@@ -63,8 +63,14 @@ const DashboardABMpets = () => {
       <h2 className="mt-4 mb-3">Listado de Mascotas</h2>
 
       <Routes>
-        <Route index element={<Pets petList={petList} onPetDeleted={fetchPets} />} />
-        <Route path=":id" element={<PetDetails key="worker" petList={petList} isWorkerView={true} />} />
+        <Route
+          index
+          element={<Pets petList={petList} onPetDeleted={fetchPets} />}
+        />
+        <Route
+          path=":id"
+          element={<PetDetails key="worker" petList={petList} />}
+        />
         <Route path="add-pet" element={<NewPet onPetAdded={fetchPets} />} />
         <Route path="edit/:id" element={<EditPet petList={petList} onPetUpdated={fetchPets} />} />
       </Routes>

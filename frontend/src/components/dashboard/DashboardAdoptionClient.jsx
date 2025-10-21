@@ -52,9 +52,7 @@ const DashboardAdoptionClient = () => {
         <Route index element={<PetsForAdoption petList={petList} />} />
         <Route
           path=":id"
-          element={
-            <PetDetails key="client" petList={petList} isWorkerView={false} />
-          }
+          element={<PetDetails key="client" petList={petList} />}
         />
       </Routes>
     </div>

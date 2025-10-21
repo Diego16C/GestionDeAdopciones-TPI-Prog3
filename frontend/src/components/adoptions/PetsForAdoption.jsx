@@ -28,9 +28,7 @@ const PetsForAdoption = ({ petList }) => {
         {!petList?.length ? (
           <p>No hay mascotas disponibles...</p>
         ) : filteredPets.length ? (
-          filteredPets.map((pet) => (
-            <PetItem key={pet.id} {...pet} isWorkerView={false} />
-          ))
+          filteredPets.map((pet) => <PetItem key={pet.id} {...pet} />)
         ) : (
           <p>No se encontraron mascotas</p>
         )}

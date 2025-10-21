@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import AdoptModal from '../../ui/modal/AdoptModal';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../../hooks/useAuth';
+import { requestAdoption } from '../../../services/adoptionRequestServices';
 
 const stateColors = {
   Adoptado: 'secondary',
@@ -13,13 +15,14 @@ const stateColors = {
   'En Pausa': 'warning',
 };
 
-const PetDetails = ({ petList, isWorkerView = true }) => {
+const PetDetails = ({ petList }) => {
   const { id } = useParams();
+  const { user, isWorker, isClient } = useAuth();
   const navigate = useNavigate();
   const [showAdoptModal, setShowAdoptModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const pet = petList.find((p) => String(p.id) === id);
-
   if (!pet) return <div>Mascota no encontrada</div>;
 
   const {
@@ -34,24 +37,27 @@ const PetDetails = ({ petList, isWorkerView = true }) => {
     Shelter,
   } = pet;
 
-  const clickHandler = () => {
-    navigate(-1);
-  };
+  const clickHandler = () => navigate(-1);
 
   const handleConfirmAdopt = async () => {
     setShowAdoptModal(false);
+    setLoading(true);
 
     try {
-      // Simulá una acción por ahora, después la conectás al backend
+      const res = await requestAdoption(pet.id, user.id);
       toast.success(
-        `Has solicitado adoptar a ${name}! Redirigiendo a tus adopciones`,
-        { autoClose: 3000 }
+        `Solicitud enviada: ${res.message || 'Adopción en curso'}`,
+        {
+          autoClose: 3000,
+        }
       );
-      // Aquí podrías llamar a un servicio, ej:
-      // await requestAdoption(id);
+
+      setTimeout(() => navigate('/my-adoptions'), 2500);
     } catch (err) {
       console.error(err);
-      toast.error('Error al solicitar adopción');
+      toast.error('Error al solicitar adopción o ya existe una solicitud');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,20 +90,24 @@ const PetDetails = ({ petList, isWorkerView = true }) => {
           </Card.Text>
 
           <div className="mt-3">
-            {' '}
             <Button className="me-2" onClick={clickHandler} variant="danger">
               Volver
             </Button>
-            {isWorkerView ? (
+            {isWorker && (
               <Button
                 variant="primary"
                 onClick={() => navigate(`/pets/edit/${id}`)}
               >
                 <FontAwesomeIcon icon={faPenToSquare} />
               </Button>
-            ) : (
-              <Button variant="success" onClick={() => setShowAdoptModal(true)}>
-                Adoptar Mascota
+            )}
+            {isClient && (
+              <Button
+                variant="success"
+                disabled={loading}
+                onClick={() => setShowAdoptModal(true)}
+              >
+                {loading ? 'Enviando...' : 'Adoptar Mascota'}
               </Button>
             )}
           </div>

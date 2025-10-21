@@ -49,7 +49,6 @@
     position: relative;
 }
 
-/* ANIMATED LINE UNDER THE LINK */
 .main-nav a::after {
     content: '';
     position: absolute;
@@ -91,6 +90,12 @@
     animation: pawPulse 2.5s infinite ease-in-out;
     margin-right: 10px;
     color: #ff7043; 
+}
+
+.auth-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
 }
 
 @keyframes pawPulse {

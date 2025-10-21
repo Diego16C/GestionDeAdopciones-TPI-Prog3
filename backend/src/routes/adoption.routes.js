@@ -4,7 +4,8 @@ import {requestAdoption, approveAdoption, rejectAdoption, getPendingRequests, ge
 const router = Router();
 
 router.post("/adoptions", requestAdoption);
-router.get("/adoptions", getAllUserAdoptionRequests);
+router.get("/adoptions/user/:userId", getAllUserAdoptionRequests);
+
 
 router.put("/adoptions/:id/approve", approveAdoption);
 router.put("/adoptions/:id/reject", rejectAdoption);
