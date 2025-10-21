@@ -8,7 +8,7 @@ import { sequelize } from "./db.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-import "./models/indexModels.js";
+import "./models/indexModels.js"; 
 
 const app = express();
 
