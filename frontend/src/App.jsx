@@ -1,9 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { ToastContainer } from 'react-toastify';
-import NewShelters from './components/shelter/newShelters/NewShelters';
-import SheltersPage from './components/shelter/sheltersPage/SheltersPage';
-
+import DashboardABMshelters from './components/dashboard/DashboardABMshelters.jsx';
 import ProtectedRoute from './components/protected/Protected.jsx';
 import MainLayout from './components/layout/MainLayout.jsx';
 
@@ -54,6 +52,14 @@ function App() {
             element={
               <ProtectedRoute roles={['worker', 'admin']}>
                 <DashboardABMpets />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/shelters/*"
+            element={
+              <ProtectedRoute roles={['worker', 'admin']}>
+                <DashboardABMshelters />
               </ProtectedRoute>
             }
           />

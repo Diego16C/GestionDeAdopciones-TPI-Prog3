@@ -1,30 +1,43 @@
-import { Card, Button, Col, Row } from "react-bootstrap";
+import { useState, useMemo, useEffect } from 'react';
+import ShelterItem from '../shelterItem/ShelterItem';
+import ShelterSearch from '../shelterSearch/ShelterSearch';
 
-const Shelters = ({ shelters, onEdit, onDelete }) => {
+const Shelters = ({ shelters, onShelterDeleted }) => {
+    const [search, setSearch] = useState('');
+
+    const handleSearch = (value) => setSearch(value);
+
+    // 🔹 Filtrado de refugios por búsqueda
+    const filteredShelters = useMemo(() => {
+        if (!shelters?.length) return [];
+        return shelters.filter((s) =>
+        s.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [shelters, search]);
+
     return (
-        <Row xs={1} md={2} lg={3} className="g-3">
-        {shelters.map((s) => (
-            <Col key={s.id}>
-            <Card bg="light" className="h-100">
-                <Card.Body>
-                <Card.Title>{s.name}</Card.Title>
-                <Card.Text>
-                    <strong>Dirección:</strong> {s.address} <br />
-                    <strong>Email:</strong> {s.email || "No informado"} <br />
-                    <strong>Capacidad:</strong> {s.maxCapacity} <br />
-                    <strong>Disponible:</strong> {s.available ? "Sí" : "No"}
-                </Card.Text>
-                <Button size="sm" variant="outline-primary" onClick={() => onEdit(s)}>
-                    Editar
-                </Button>{" "}
-                <Button size="sm" variant="outline-danger" onClick={() => onDelete(s.id)}>
-                    Eliminar
-                </Button>
-                </Card.Body>
-            </Card>
-            </Col>
-        ))}
-        </Row>
+        <div className="d-flex flex-column align-items-center my-5">
+        {/* 🔹 Componente de búsqueda */}
+        <div className="w-50 mb-4">
+            <ShelterSearch onSearch={handleSearch} search={search} />
+        </div>
+
+        <div className="d-flex flex-wrap justify-content-center gap-3">
+            {!shelters?.length ? (
+            <p>No hay refugios disponibles...</p>
+            ) : filteredShelters.length ? (
+            filteredShelters.map((shelter) => (
+                <ShelterItem
+                key={shelter.id}
+                {...shelter}
+                onShelterDeleted={onShelterDeleted}
+                />
+            ))
+            ) : (
+            <p>No se encontraron refugios</p>
+            )}
+        </div>
+        </div>
     );
 };
 
