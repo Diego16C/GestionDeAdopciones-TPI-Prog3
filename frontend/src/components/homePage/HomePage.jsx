@@ -10,10 +10,10 @@ const HomePage = () => {
       <p>Elegí cómo querés ingresar:</p>
 
       <div className="d-flex gap-3 mt-3">
-        <Button variant="primary" onClick={() => navigate('/cliente')}>
+        <Button variant="primary" onClick={() => navigate('/client')}>
           Soy Adoptante
         </Button>
-        <Button variant="success" onClick={() => navigate('/trabajador')}>
+        <Button variant="success" onClick={() => navigate('/worker')}>
           Soy Trabajador
         </Button>
       </div>

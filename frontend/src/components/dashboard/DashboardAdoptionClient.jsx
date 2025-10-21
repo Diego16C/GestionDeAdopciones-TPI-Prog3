@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import NewPet from '../Pet/newPet/NewPet';
 import PetsForAdoption from '../adoptions/PetsForAdoption';
 import PetDetails from '../Pet/petDetails/PetDetails';
@@ -8,6 +9,7 @@ import { getInAdoptionPets } from '../../services/petServices';
 
 const DashboardAdoptionClient = () => {
   const [petList, setPetList] = useState([]);
+  const navigate = useNavigate();
 
   const fetchPets = async () => {
     try {
@@ -21,6 +23,9 @@ const DashboardAdoptionClient = () => {
     fetchPets();
   }, []);
 
+  const clickHandler = () => {
+    navigate(-1);
+  };
   return (
     <div>
       <Row className="align-items-center w-100 my-3">
@@ -35,6 +40,11 @@ const DashboardAdoptionClient = () => {
               Mascotas disponibles para Adopción
             </h2>
           </div>
+        </Col>
+        <Col xs={4} className="d-flex justify-content-start align-items-center">
+          <Button className="me-3" variant="secondary" onClick={clickHandler}>
+            Volver
+          </Button>
         </Col>
       </Row>
 

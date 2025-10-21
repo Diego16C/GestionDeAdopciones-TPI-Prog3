@@ -2,7 +2,8 @@ export const validateRegisterUser = ({ name, surname, email, password }) => {
   const errors = [];
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  const passRegex = /^.{6,}$/;
+
 
   if (!name || name.length > 50)
     errors.push("El nombre es obligatorio y debe tener menos de 50 caracteres");
@@ -15,7 +16,7 @@ export const validateRegisterUser = ({ name, surname, email, password }) => {
 
   if (!passRegex.test(password))
     errors.push(
-      "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número"
+      "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número"
     );
 
   return errors;

@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { registerUser } from '../../services/authServices';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
+    surname: '',
     email: '',
     password: '',
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +43,17 @@ const Register = () => {
             value={formData.name}
           />
         </div>
+
+        <div className="mb-3">
+          <label>Apellido:</label>
+          <input
+            name="surname" // ✅ corregido
+            className="form-control"
+            onChange={handleChange}
+            value={formData.surname}
+          />
+        </div>
+
         <div className="mb-3">
           <label>Email:</label>
           <input
@@ -48,6 +64,7 @@ const Register = () => {
             value={formData.email}
           />
         </div>
+
         <div className="mb-3">
           <label>Contraseña:</label>
           <input
@@ -58,6 +75,7 @@ const Register = () => {
             value={formData.password}
           />
         </div>
+
         <button className="btn btn-success w-100" type="submit">
           Registrarse
         </button>
