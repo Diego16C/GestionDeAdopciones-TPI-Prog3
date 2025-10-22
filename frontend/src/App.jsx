@@ -13,6 +13,8 @@ import DashboardMain from './components/dashboard/dashboardUsers/DashboardMain.j
 import DashboardABMpets from './components/dashboard/DashboardABMpets.jsx';
 import DashboardAdoptionClient from './components/dashboard/DashboardAdoptionClient.jsx';
 import DashboardAdoptionManagement from './components/dashboard/DashboardAdoptionManagement.jsx';
+import DashboardABMshelters from './components/dashboard/DashboardABMshelters.jsx';
+import DashboardABMusers from './components/dashboard/DashboardABMusers.jsx';
 import Login from './components/login/Login.jsx';
 import Register from './components/register/Register.jsx';
 import NotFound from './components/ui/notFound/NotFound.jsx';
@@ -24,6 +26,10 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
+
+          <Route path="/inquiries" element={<Inquiries />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about-us" element={<AboutUs />} />
 
           <Route
             path="/dashboard"
@@ -76,11 +82,25 @@ function App() {
               </ProtectedRoute>
             }
           />
-        </Route>
 
-        <Route path="/inquiries" element={<Inquiries />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about-us" element={<AboutUs />} />
+          <Route
+            path="/users/*"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <DashboardABMusers />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/shelters/*"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <DashboardABMshelters />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

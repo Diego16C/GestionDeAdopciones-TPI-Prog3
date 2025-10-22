@@ -45,6 +45,9 @@ const Header = () => {
         <div className="nav-list">
           <ul>
             <li>
+              <Link to="/">Inicio</Link>
+            </li>
+            <li>
               <Link to="/inquiries">Consultas</Link>
             </li>
             <li>

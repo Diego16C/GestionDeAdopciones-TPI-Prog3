@@ -2,7 +2,8 @@ import express from "express";
 import petRoutes from "./routes/pet.routes.js";
 import shelterRoutes from "./routes/shelter.routes.js";
 import adoptionRoutes from "./routes/adoption.routes.js";
-import authRouetes from "./routes/auth.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
 import { PORT } from "./config.js";
 import { sequelize } from "./db.js";
 import dotenv from "dotenv";
@@ -25,7 +26,8 @@ app.use((req, res, next) => {
 app.use(petRoutes);
 app.use(shelterRoutes);
 app.use(adoptionRoutes);
-app.use(authRouetes);
+app.use(authRoutes);
+app.use(userRoutes);
 
 const startServer = async () => {
   try {

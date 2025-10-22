@@ -7,7 +7,7 @@ import {
   faPhone,
   faPaw,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const Footer = () => {
   return (

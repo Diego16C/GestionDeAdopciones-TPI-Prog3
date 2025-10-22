@@ -80,16 +80,6 @@
         gap: 1rem;
         align-items: center;
     }
-
-    .header-top h1 {
-        font-size: 1.8rem;
-    }
-}
-
-.header-top svg {
-    animation: pawPulse 2.5s infinite ease-in-out;
-    margin-right: 10px;
-    color: #ff7043; 
 }
 
 .auth-buttons {
@@ -98,13 +88,30 @@
     gap: 1rem;
 }
 
-@keyframes pawPulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.85;
-    }
+.btn-login,
+.btn-register {
+    text-decoration: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    background-color: black;
+    color: white;
+}
+
+.btn-login:hover {
+    background-color: #515151;
+}
+
+
+.btn-register {
+    background-color: #fb6f44;
+    color: #f2f2f2;
+}
+
+.btn-register:hover {
+    background-color: #7e3722;
 }
