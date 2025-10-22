@@ -7,6 +7,7 @@ import {
   faPhone,
   faPaw,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router';
 
 const Footer = () => {
   return (
@@ -23,8 +24,7 @@ const Footer = () => {
           title="Ubicación"
         ></iframe>
         <p>
-          <FontAwesomeIcon icon={faPaw} />
-          Adopcion de Animales
+          <FontAwesomeIcon icon={faPaw} /> Adopción de Animales
         </p>
         <p>
           <FontAwesomeIcon icon={faMapMarkerAlt} /> Shopping del Siglo 1851,
@@ -46,19 +46,16 @@ const Footer = () => {
         <h3>Acceso Rápido</h3>
         <ul>
           <li>
-            <a href="index.html">Inicio</a>
+            <Link to="/">Inicio</Link>
           </li>
           <li>
-            <a href="productos.html">Productos</a>
+            <Link to="/inquiries">Consultas</Link>
           </li>
           <li>
-            <a href="formulario.html">Consultas</a>
+            <Link to="/contact">Contacto</Link>
           </li>
           <li>
-            <a href="contacto.html">Contacto</a>
-          </li>
-          <li>
-            <a href="sobre-nosotros.html">Sobre Nosotros</a>
+            <Link to="/about-us">Sobre Nosotros</Link>
           </li>
         </ul>
       </div>
@@ -74,7 +71,7 @@ const Footer = () => {
               </td>
             </tr>
             <tr>
-              <td>Sabado</td>
+              <td>Sábado</td>
               <td className="purple-text">
                 9:00am - 13:00pm | 17:00pm - 19:00pm
               </td>

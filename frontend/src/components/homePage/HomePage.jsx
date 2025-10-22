@@ -1,21 +1,42 @@
-import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router';
+import React from 'react';
+import { Link } from 'react-router';
+import './HomePage.css';
+import { useAuth } from '../../hooks/useAuth';
 
 const HomePage = () => {
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center vh-100 text-center">
-      <h1>Bienvenido a Gestión de Adopciones 🐾</h1>
-      <p>Elegí cómo querés ingresar:</p>
+    <div className="homepage-container">
+      <div>
+        <h1 className="homepage-title">Adoptá, cambiá una vida 🐾</h1>
+        <p className="homepage-subtitle">
+          Unite a nuestra comunidad y ayudá a darle un hogar a quien más lo
+          necesita.
+        </p>
 
-      <div className="d-flex gap-3 mt-3">
-        <Button variant="primary" onClick={() => navigate('/client')}>
-          Soy Adoptante
-        </Button>
-        <Button variant="success" onClick={() => navigate('/worker')}>
-          Soy Trabajador
-        </Button>
+        <p className="already-registered">
+          {!user && (
+            <>
+              <Link to="/register" className="homepage-btn">
+                Registrarse
+              </Link>
+              <br />
+
+              <br />
+              <Link to="/login" className="btn-login">
+                Iniciar sesión
+              </Link>
+            </>
+          )}
+          {user && (
+            <>
+              <Link to="/dashboard" className="btn-register">
+                Ir a Mi Panel
+              </Link>
+            </>
+          )}
+        </p>
       </div>
     </div>
   );
