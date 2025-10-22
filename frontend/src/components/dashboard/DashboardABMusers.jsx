@@ -31,17 +31,15 @@ const DashboardABMusers = () => {
   return (
     <div>
       <Row className="align-items-center w-100 my-3">
-        <Col
-          xs={8}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <div
-            style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}
-          >
-            <h2 className="text-center m-0">Gestión de Usuarios</h2>
-          </div>
+        <Col xs="auto" className="d-flex justify-content-start">
+          <Button variant="secondary" onClick={() => navigate(-1)}>
+            Volver
+          </Button>
         </Col>
-        <Col xs={4} className="d-flex justify-content-end align-items-center">
+        <Col className="d-flex justify-content-center">
+          <h2 className="m-0">Gestión de Usuarios</h2>
+        </Col>
+        <Col xs="auto" className="d-flex justify-content-end">
           <Button
             className="me-3"
             variant="dark"
@@ -58,15 +56,10 @@ const DashboardABMusers = () => {
           element={<Users userList={userList} onUserDeleted={fetchAllUsers} />}
         />
         <Route path=":id" element={<UserDetails userList={userList} />} />
-        <Route
-          path="add-user"
-          element={<NewUser onUserAdded={fetchAllUsers} />}
-        />
+        <Route path="add-user" element={<NewUser onUserAdded={fetchAllUsers} />} />
         <Route
           path="edit/:id"
-          element={
-            <EditUser userList={userList} onUserUpdated={fetchAllUsers} />
-          }
+          element={<EditUser userList={userList} onUserUpdated={fetchAllUsers} />}
         />
       </Routes>
     </div>

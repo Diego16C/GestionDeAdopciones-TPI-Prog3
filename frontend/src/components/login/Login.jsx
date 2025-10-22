@@ -1,36 +1,33 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import { loginUser } from '../../services/authServices';
-import { useAuth } from '../../hooks/useAuth.jsx';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import { Button } from 'react-bootstrap';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await loginUser({ email, password });
+      const data = await loginUser(formData);
       login(data.user, data.token);
-      toast.success('Inicio de sesión exitoso');
-
+      toast.success('Inicio de sesión exitoso 🎉');
       navigate('/dashboard');
     } catch (error) {
-      console.error(error);
-      toast.error('Credenciales inválidas, por favor intente de nuevo');
+      toast.error(error.message || 'Error al iniciar sesión ❌');
     }
   };
 
   return (
     <div className="container d-flex flex-column align-items-center justify-content-center vh-100">
-      <div
-        className="card shadow p-4"
-        style={{ maxWidth: '400px', width: '100%' }}
-      >
+      <div className="card shadow p-4" style={{ maxWidth: '400px', width: '100%' }}>
         <h2 className="text-center mb-4">Iniciar Sesión</h2>
 
         <form onSubmit={handleSubmit}>
@@ -38,10 +35,11 @@ const Login = () => {
             <label>Email:</label>
             <input
               type="email"
+              name="email"
               className="form-control"
               placeholder="Ingrese su email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
@@ -50,10 +48,11 @@ const Login = () => {
             <label>Contraseña:</label>
             <input
               type="password"
+              name="password"
               className="form-control"
               placeholder="Ingrese su contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               required
             />
           </div>

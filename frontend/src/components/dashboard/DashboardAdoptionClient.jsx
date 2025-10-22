@@ -19,35 +19,24 @@ const DashboardAdoptionClient = () => {
       console.error('Error fetching pets:', error);
     }
   };
+
   useEffect(() => {
     fetchPets();
   }, []);
 
-  const clickHandler = () => {
-    navigate(-1);
-  };
   return (
     <div>
       <Row className="align-items-center w-100 my-3">
-        <Col
-          xs={8}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <div
-            style={{ width: '100%', paddingLeft: '550px', fontSize: '40px' }}
-          >
-            <h2 className="text-center m-0" style={{ textAlign: 'center' }}>
-              Mascotas disponibles para Adopción
-            </h2>
-          </div>
-        </Col>
-        <Col xs={4} className="d-flex justify-content-start align-items-center">
-          <Button className="me-3" variant="secondary" onClick={clickHandler}>
+        <Col xs="auto" className="d-flex justify-content-start">
+          <Button variant="secondary" onClick={() => navigate(-1)}>
             Volver
           </Button>
         </Col>
+        <Col className="d-flex justify-content-center">
+          <h2 className="m-0">Mascotas disponibles para Adopción</h2>
+        </Col>
+        <Col xs="auto"></Col>
       </Row>
-
       <Routes>
         <Route index element={<PetsForAdoption petList={petList} />} />
         <Route

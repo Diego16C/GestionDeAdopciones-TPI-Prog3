@@ -9,7 +9,7 @@ export const validateRegisterUser = ({ name, surname, email, password }) => {
     errors.push("El nombre es obligatorio y debe tener menos de 50 caracteres");
 
   if (!surname || surname.length > 50)
-    errors.push("El nombre es obligatorio y debe tener menos de 50 caracteres");
+    errors.push("El apellido es obligatorio y debe tener menos de 50 caracteres");
 
   if (!emailRegex.test(email))
     errors.push("El email debe tener un formato válido");

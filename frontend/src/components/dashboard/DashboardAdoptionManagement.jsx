@@ -8,6 +8,7 @@ import {
   rejectAdoption,
 } from '../../services/adoptionRequestServices';
 import ManageAdoptionModal from '../ui/modal/ManageAdoptionModal';
+import { useNavigate } from 'react-router';
 
 const statusColors = {
   pending: 'primary',
@@ -22,6 +23,8 @@ const DashboardAdoptionManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [modalType, setModalType] = useState(null);
+
+  const navigate = useNavigate();
 
   const fetchPending = async () => {
     try {
@@ -57,9 +60,15 @@ const DashboardAdoptionManagement = () => {
   return (
     <div className="container my-5">
       <Row className="align-items-center mb-4">
-        <Col>
-          <h2 className="text-center">Gestión de Solicitudes de Adopción</h2>
+        <Col xs="auto" className="d-flex justify-content-start">
+          <Button variant="secondary" onClick={() => navigate(-1)}>
+            Volver
+          </Button>
         </Col>
+        <Col className="d-flex justify-content-center">
+          <h2 className="m-0">Gestión de Solicitudes de Adopción</h2>
+        </Col>
+        <Col xs="auto"></Col>
       </Row>
 
       <div className="d-flex flex-column align-items-center gap-4">
@@ -94,13 +103,11 @@ const DashboardAdoptionManagement = () => {
               </div>
 
               <Card.Text>
-                <strong>Solicitante:</strong> {req.User?.name || 'Desconocido'}{' '}
-                <br />
+                <strong>Solicitante:</strong> {req.User?.name || 'Desconocido'} <br />
                 <strong>Email:</strong> {req.User?.email} <br />
                 <strong>Fecha de solicitud:</strong>{' '}
                 {new Date(req.requestDate).toLocaleDateString()} <br />
-                <strong>Refugio:</strong>{' '}
-                {req.Pet?.Shelter?.name || 'Sin refugio'}
+                <strong>Refugio:</strong> {req.Pet?.Shelter?.name || 'Sin refugio'}
               </Card.Text>
 
               <div className="d-flex justify-content-center gap-3 mt-3">
@@ -129,6 +136,7 @@ const DashboardAdoptionManagement = () => {
           </Card>
         ))}
       </div>
+
       <ManageAdoptionModal
         show={showModal}
         onClose={() => setShowModal(false)}

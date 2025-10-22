@@ -14,11 +14,13 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,8 +28,16 @@ const Register = () => {
       await registerUser(formData);
       toast.success('Usuario registrado correctamente 🎉');
       navigate('/login');
-    } catch {
-      toast.error('Error al registrarse ❌');
+    } catch (error) {
+      console.error('Error en registro:', error);
+
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error('Error al registrarse ❌');
+      }
     }
   };
 

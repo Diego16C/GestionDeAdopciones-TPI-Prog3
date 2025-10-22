@@ -6,8 +6,18 @@ export const registerUser = async (userData) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
-  if (!res.ok) throw new Error('Error al registrarse');
-  return res.json();
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    const message =
+      data.errors?.join(' | ') ||
+      data.message ||
+      'Error desconocido al registrarse';
+    throw new Error(message);
+  }
+
+  return data;
 };
 
 export const loginUser = async (credentials) => {
@@ -16,6 +26,10 @@ export const loginUser = async (credentials) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  if (!res.ok) throw new Error('Credenciales inválidas');
-  return res.json();
+
+  const data = await res.json();
+
+  if (!res.ok) throw new Error(data.message || 'Error al iniciar sesión');
+
+  return data;
 };
